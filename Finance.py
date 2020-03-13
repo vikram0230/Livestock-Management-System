@@ -15,7 +15,7 @@ except ImportError:
 import Finance_support
 from tkinter import END
 from backend import DataBase
-
+from tkinter import messagebox
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
     global val, w, root
@@ -215,9 +215,9 @@ class Toplevel1:
 
         self.tree0 = ttk.Treeview(self.Frame6)
         self.tree0["columns"] = ("#0","#1","#2","#3","#4","#5")
-        self.tree0.column("#0", width=140,stretch=True)
-        self.tree0.column("#1", width=140,stretch=True)
-        self.tree0.column("#2", width=140,stretch=True)
+        self.tree0.column("#0", width=140,stretch=True,anchor='center')
+        self.tree0.column("#1", width=140,stretch=True,anchor='center')
+        self.tree0.column("#2", width=140,stretch=True,anchor='center')
         self.tree0.heading("#0", text="S No")
         self.tree0.heading("#1", text="Category")
         self.tree0.heading("#2", text="Cost")
@@ -257,12 +257,12 @@ class Toplevel1:
 
         self.tree1 = ttk.Treeview(self.treeFrame5)
         self.tree1["columns"] = ("#0","#1","#2","#3","#4","#5")
-        self.tree1.column("#0", width=125,stretch=True)
-        self.tree1.column("#1", width=125,stretch=True)
-        self.tree1.column("#2", width=125,stretch=True)
-        self.tree1.column("#3", width=125,stretch=True)
-        self.tree1.column("#4", width=125,stretch=True)
-        self.tree1.column("#5", width=125,stretch=True)
+        self.tree1.column("#0", width=125,stretch=True,anchor='center')
+        self.tree1.column("#1", width=125,stretch=True,anchor='center')
+        self.tree1.column("#2", width=125,stretch=True,anchor='center')
+        self.tree1.column("#3", width=125,stretch=True,anchor='center')
+        self.tree1.column("#4", width=125,stretch=True,anchor='center')
+        self.tree1.column("#5", width=125,stretch=True,anchor='center')
         self.tree1.heading("#0", text="S No")
         self.tree1.heading("#1", text="Category")
         self.tree1.heading("#2", text="Breed")
@@ -307,12 +307,12 @@ class Toplevel1:
 
         self.tree3 = ttk.Treeview(self.treeFrame7)
         self.tree3["columns"] = ("#0","#1","#2","#3","#4","#5")
-        self.tree3.column("#0", width=125,stretch=True)
-        self.tree3.column("#1", width=125,stretch=True)
-        self.tree3.column("#2", width=125,stretch=True)
-        self.tree3.column("#3", width=125,stretch=True)
-        self.tree3.column("#4", width=125,stretch=True)
-        self.tree3.column("#5", width=125,stretch=True)
+        self.tree3.column("#0", width=125,stretch=True,anchor='center')
+        self.tree3.column("#1", width=125,stretch=True,anchor='center')
+        self.tree3.column("#2", width=125,stretch=True,anchor='center')
+        self.tree3.column("#3", width=125,stretch=True,anchor='center')
+        self.tree3.column("#4", width=125,stretch=True,anchor='center')
+        self.tree3.column("#5", width=125,stretch=True,anchor='center')
         self.tree3.heading("#0", text="S No")
         self.tree3.heading("#1", text="Date")
         self.tree3.heading("#2", text="Item")
@@ -333,10 +333,10 @@ class Toplevel1:
 
         self.tree4 = ttk.Treeview(self.treeFrame8)
         self.tree4["columns"] = ("#0","#1","#2","#3")
-        self.tree4.column("#0", width=185,stretch=True)
-        self.tree4.column("#1", width=185,stretch=True)
-        self.tree4.column("#2", width=185,stretch=True)
-        self.tree4.column("#3", width=185,stretch=True)
+        self.tree4.column("#0", width=185,stretch=True,anchor='center')
+        self.tree4.column("#1", width=185,stretch=True,anchor='center')
+        self.tree4.column("#2", width=185,stretch=True,anchor='center')
+        self.tree4.column("#3", width=185,stretch=True,anchor='center')
         self.tree4.heading("#0", text="S No")
         self.tree4.heading("#1", text="Date")
         self.tree4.heading("#2", text="Category")
@@ -355,10 +355,10 @@ class Toplevel1:
 
         self.tree5 = ttk.Treeview(self.treeFrame9)
         self.tree5["columns"] = ("#0","#1","#2","#3")
-        self.tree5.column("#0", width=185,stretch=True)
-        self.tree5.column("#1", width=185,stretch=True)
-        self.tree5.column("#2", width=185,stretch=True)
-        self.tree5.column("#3", width=185,stretch=True)
+        self.tree5.column("#0", width=185,stretch=True,anchor='center')
+        self.tree5.column("#1", width=185,stretch=True,anchor='center')
+        self.tree5.column("#2", width=185,stretch=True,anchor='center')
+        self.tree5.column("#3", width=185,stretch=True,anchor='center')
         self.tree5.heading("#0", text="S No")
         self.tree5.heading("#1", text="Date")
         self.tree5.heading("#2", text="Details")
@@ -416,7 +416,7 @@ class Toplevel1:
         self.TEntry15.configure(takefocus="")
         self.TEntry15.configure(cursor="watch")
 
-        self.Submit1 = tk.Button(self.Frame1)
+        self.Submit1 = tk.Button(self.Frame1, command=self.acceptLivestockNetworth)
         self.Submit1.place(relx=0.580, rely=0.842, height=30, width=59)
         self.Submit1.configure(activebackground="#ececec")
         self.Submit1.configure(activeforeground="#000000")
@@ -509,7 +509,7 @@ class Toplevel1:
         self.Label27.configure(disabledforeground="#a3a3a3")
         self.Label27.configure(foreground="#000000")
         self.Label27.configure(font=font8)
-        self.Label27.configure(text='''Salary : ''')
+        self.Label27.configure(text='''Salary(Per Day) : ''')
 
         self.TEntry28 = ttk.Entry(self.Frame2)
         self.TEntry28.place(relx=0.5,rely=0.39, height=35, width=140)
@@ -635,7 +635,7 @@ class Toplevel1:
         self.Label37.configure(disabledforeground="#a3a3a3")
         self.Label37.configure(foreground="#000000")
         self.Label37.configure(font=font8)
-        self.Label37.configure(text='''Weight : ''')
+        self.Label37.configure(text='''Cost(Rs/kg) : ''')
 
         self.TEntry38 = ttk.Entry(self.Frame3)
         self.TEntry38.place(relx=0.5,rely=0.39, height=35, width=140)
@@ -648,7 +648,7 @@ class Toplevel1:
         self.Label39.configure(disabledforeground="#a3a3a3")
         self.Label39.configure(foreground="#000000")
         self.Label39.configure(font=font8)
-        self.Label39.configure(text='''Cost : ''')
+        self.Label39.configure(text='''Weight(Kg) : ''')
 
         self.TEntry310 = ttk.Entry(self.Frame3)
         self.TEntry310.place(relx=0.5,rely=0.49, height=35, width=140)
@@ -923,6 +923,18 @@ class Toplevel1:
         self.populateTree(self.tree4, popData)
         popData = self.db.getMiscData()
         self.populateTree(self.tree5, popData)
+        popData = self.db.getLivestockNetworthData()
+        self.populateTree(self.tree1, popData)       
+
+        grand_total = (self.db.getTotalLabourCost() * 12) + (self.db.getTotalFeedCost()) + (self.db.getTotalHealthExpenditure()) + (self.db.getTotalMiscCost())
+
+        self.tree0.insert("", END, text="1", values=("Labour", self.db.getTotalLabourCost() * 12))
+        self.tree0.insert("", END, text="2", values=("Feed", self.db.getTotalFeedCost()))
+        self.tree0.insert("", END, text="3", values=("Health Expense", self.db.getTotalHealthExpenditure()))
+        self.tree0.insert("", END, text="4", values=("Miscellaneous", self.db.getTotalMiscCost()))
+
+        self.TEntry02.delete(0, END)
+        self.TEntry02.insert(END, grand_total)
 
     def showLivestock(self,flag):
         if flag:
@@ -931,6 +943,8 @@ class Toplevel1:
         self.Label14.place_forget()
         self.TEntry15.place_forget()
         self.Frame1.place(relx=0.615, rely=0.079, relheight=0.888, relwidth=0.365)
+        self.TEntry13.delete(0, END)
+        self.TEntry13.insert(END, self.db.getTotalLivestockNetworth())
         self.Frame2.place_forget()
         self.Frame3.place_forget()
         self.Frame4.place_forget()
@@ -1048,7 +1062,8 @@ class Toplevel1:
         data1 = self.tree1.item(self.tree1.selection())
         self.TEntry15.delete(0,END)
         self.TEntry15.insert(END, data1['values'][2])
-        print(data1['values'])
+        self.selectedLiveStockData = data1['values']
+        print(self.selectedLiveStockData)
 
     def getLabourData(self, event):
         self.showLabour(0)
@@ -1105,7 +1120,9 @@ class Toplevel1:
 
     def refresh(self):
         # def refreshLiveStockTree(self):
-        pass
+        livestockNetworthData = self.db.getLivestockNetworthData()
+        self.clearTreeView(self.tree1)
+        self.populateTree(self.tree1, livestockNetworthData)
 
         # def refreshLabourTree(self):
         labourData = self.db.getLabourData()
@@ -1126,6 +1143,19 @@ class Toplevel1:
         miscData = self.db.getMiscData()
         self.clearTreeView(self.tree5)
         self.populateTree(self.tree5, miscData)
+
+        # def grandTotal
+        grand_total = (self.db.getTotalLabourCost() * 12) + (self.db.getTotalFeedCost()) + (self.db.getTotalHealthExpenditure()) + (self.db.getTotalMiscCost())
+
+        self.clearTreeView(self.tree0)
+
+        self.tree0.insert("", END, text="1", values=("Labour", self.db.getTotalLabourCost() * 12))
+        self.tree0.insert("", END, text="2", values=("Feed", self.db.getTotalFeedCost()))
+        self.tree0.insert("", END, text="3", values=("Health Expense", self.db.getTotalHealthExpenditure()))
+        self.tree0.insert("", END, text="4", values=("Miscellaneous", self.db.getTotalMiscCost()))
+
+        self.TEntry02.delete(0, END)
+        self.TEntry02.insert(END, grand_total)
 
     def acceptLabour(self):
         count = int(self.TEntry210.get())
@@ -1204,44 +1234,75 @@ class Toplevel1:
 
         self.Frame5.place_forget()
 
-    def deleteLabour(self):
-        data2 = self.tree2.item(self.tree2.selection())
-        category = data2['values'][0]
-        salary = data2['values'][1]
-        count = data2['values'][2]
-        labourData = {'count': count, 'category': category, 'salary': salary}
-        self.db.deleteLabourRecord(labourData)
+    def acceptLivestockNetworth(self):
+        cost = int(self.TEntry15.get())
+
+        # print(self.selectedLiveStockData)
+
+        livestockNetworthData = {'cost': cost, 'category': self.selectedLiveStockData[0], 'breed': self.selectedLiveStockData[1], 'total_weight': self.selectedLiveStockData[3]}
+
+        self.db.insertLiveStockNetworth(livestockNetworthData)
+
         self.refresh()
-        self.Frame2.place_forget()
+
+    def deleteLabour(self):
+        answer=messagebox.askokcancel("Delete","Do you want to delete the entry?")
+        if(answer==True):
+            data2 = self.tree2.item(self.tree2.selection())
+            category = data2['values'][0]
+            salary = data2['values'][1]
+            count = data2['values'][2]
+            labourData = {'count': count, 'category': category, 'salary': salary}
+            self.db.deleteLabourRecord(labourData)
+            self.refresh()
+            self.Frame2.place_forget()
+            w.deiconify()
+        else:
+            w.deiconify()
 
     def deleteFeed(self):
-        data3 = self.tree3.item(self.tree3.selection())
-        purchase_date = data3['values'][0]
-        item = data3['values'][1]
-        weight = data3['values'][2]
-        cost = data3['values'][3]
-        feedData = {'purchase_date': purchase_date,'item': item, 'cost': cost, 'weight': weight}
-        self.db.deleteFeedRecord(feedData)
-        self.refresh()
-        self.Frame3.place_forget()
+        answer1=messagebox.askokcancel("Delete","Do you want to delete the entry?")
+        if(answer1==True):
+            data3 = self.tree3.item(self.tree3.selection())
+            purchase_date = data3['values'][0]
+            item = data3['values'][1]
+            weight = data3['values'][2]
+            cost = data3['values'][3]
+            feedData = {'purchase_date': purchase_date,'item': item, 'cost': cost, 'weight': weight}
+            self.db.deleteFeedRecord(feedData)
+            self.refresh()
+            self.Frame3.place_forget()
+            w.deiconify()
+        else:
+            w.deiconify()
 
     def deleteHealth(self):
-        data4 = self.tree4.item(self.tree4.selection())
-        purchase_date = data4['values'][0]
-        category = data4['values'][1]
-        cost = data4['values'][2]
-        healthExpenseData = {'purchase_date': purchase_date,'category': category, 'cost': cost}
-        self.db.deleteHealthExpenditureRecord(healthExpenseData)
-        self.refresh()
-        self.Frame4.place_forget()
+        answer2=messagebox.askokcancel("Delete","Do you want to delete the entry?")
+        if(answer2==True):
+            data4 = self.tree4.item(self.tree4.selection())
+            purchase_date = data4['values'][0]
+            category = data4['values'][1]
+            cost = data4['values'][2]
+            healthExpenseData = {'purchase_date': purchase_date,'category': category, 'cost': cost}
+            self.db.deleteHealthExpenditureRecord(healthExpenseData)
+            self.refresh()
+            self.Frame4.place_forget()
+            w.deiconify()
+        else:
+                w.deiconify()
 
     def deleteMisc(self):
-        data5 = self.tree5.item(self.tree5.selection())
-        purchase_date = data5['values'][0]
-        details = data5['values'][1]
-        cost = data5['values'][2]
-        miscData = {'purchase_date': purchase_date,'details': details, 'cost': cost}
-        self.db.deleteMiscRecord(miscData)
-        self.refresh()
-        self.Frame5.place_forget()
+        answer3=messagebox.askokcancel("Delete","Do you want to delete the entry?")
+        if(answer3==True):
+            data5 = self.tree5.item(self.tree5.selection())
+            purchase_date = data5['values'][0]
+            details = data5['values'][1]
+            cost = data5['values'][2]
+            miscData = {'purchase_date': purchase_date,'details': details, 'cost': cost}
+            self.db.deleteMiscRecord(miscData)
+            self.refresh()
+            self.Frame5.place_forget()
+            w.deiconify()
+        else:
+            w.deiconify()
 

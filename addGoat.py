@@ -9,6 +9,7 @@ from backend import DataBase
 import addGoat_support
 from tkinter import DISABLED, NORMAL
 from tkcalendar import DateEntry
+from datetime import datetime, date
 from tkinter import messagebox
 
 
@@ -393,47 +394,51 @@ class Toplevel1:
         self.Cancel.configure(pady="0")
         self.Cancel.configure(text='''CANCEL''')
 
+        self.goatDob.set_date(datetime.date(datetime.now()))
+        self.cal1.set_date(datetime.date(datetime.now()))
+        self.cal2.set_date(datetime.date(datetime.now()))
+        self.cal3.set_date(datetime.date(datetime.now()))
+        self.cal4.set_date(datetime.date(datetime.now()))
+        self.cal5.set_date(datetime.date(datetime.now()))
+        self.cal6.set_date(datetime.date(datetime.now()))
+
     def acceptValues(self):
-        try:
-            goat_id = int(self.TEntry1.get())
-            g_breed = self.TEntry1_22.get()
-            g_dob = self.goatDob.get_date()
-            g_weight = int(self.TEntry1_24.get())
-            g_motherId = self.TEntry1_25.get()
-            g_gender = int(self.genderVal.get())
-            g_isBornOrBought = self.isBornOrBought.get()
+        goat_id = int(self.TEntry1.get())
+        g_breed = self.TEntry1_22.get()
+        g_dob = self.goatDob.get_date()
+        g_weight = int(self.TEntry1_24.get())
+        g_motherId = self.TEntry1_25.get()
+        g_gender = 'm' if int(self.genderVal.get()) == 0 else 'f'
+        g_isBornOrBought = self.isBornOrBought.get()
 
-            v1Date = self.cal1.get_date()
-            v2Date = self.cal2.get_date()
-            v3Date = self.cal3.get_date()
-            v4Date = self.cal4.get_date()
-            v5Date = self.cal5.get_date()
-            v6Date = self.cal6.get_date()
+        v1Date = self.cal1.get_date()
+        v2Date = self.cal2.get_date()
+        v3Date = self.cal3.get_date()
+        v4Date = self.cal4.get_date()
+        v5Date = self.cal5.get_date()
+        v6Date = self.cal6.get_date()
 
-            # born = 0
+        # born = 0
 
-            if g_gender == 1 and g_isBornOrBought == 0:
-                self.db.insertGoatRecord({'goat_id': goat_id, 'breed': g_breed, 'date_of_birth': g_dob,
-                                   'weight': g_weight, 'gender': g_gender, 'pregnant': 0, 'v1': str(v1Date), 'v2': str(v2Date), 'v3': str(v3Date), 'v4': str(v4Date), 'v5': str(v5Date), 'v6': str(v6Date)}, mother_id=g_motherId)
-            elif g_gender == 1 and g_isBornOrBought == 1:
-                self.db.insertGoatRecord({'goat_id': goat_id, 'breed': g_breed, 'date_of_birth': g_dob,
-                                   'weight': g_weight, 'gender': g_gender, 'pregnant': 0, 'v1': str(v1Date), 'v2': str(v2Date), 'v3': str(v3Date), 'v4': str(v4Date), 'v5': str(v5Date), 'v6': str(v6Date)}, mother_id='null')
-            elif g_gender == 0 and g_isBornOrBought == 0:
-                self.db.insertGoatRecord({'goat_id': goat_id, 'breed': g_breed, 'date_of_birth': g_dob,
-                                   'weight': g_weight, 'gender': g_gender, 'pregnant': 0, 'v1': str(v1Date), 'v2': str(v2Date), 'v3': str(v3Date), 'v4': str(v4Date), 'v5': str(v5Date), 'v6': str(v6Date)}, mother_id=g_motherId)
-            elif g_gender == 0 and g_isBornOrBought == 1:
-                self.db.insertGoatRecord({'goat_id': goat_id, 'breed': g_breed, 'date_of_birth': g_dob,
-                                   'weight': g_weight, 'gender': g_gender, 'pregnant': 0, 'v1': str(v1Date), 'v2': str(v2Date), 'v3': str(v3Date), 'v4': str(v4Date), 'v5': str(v5Date), 'v6': str(v6Date)}, mother_id='null')
+        if g_gender == 'f' and g_isBornOrBought == 0:
+            self.db.insertGoatRecord({'goat_id': goat_id, 'breed': g_breed, 'date_of_birth': g_dob,
+                                'weight': g_weight, 'gender': g_gender, 'pregnant': 'No'}, mother_id=g_motherId)
+        elif g_gender == 'f' and g_isBornOrBought == 1:
+            self.db.insertGoatRecord({'goat_id': goat_id, 'breed': g_breed, 'date_of_birth': g_dob,
+                                'weight': g_weight, 'gender': g_gender, 'pregnant': 'No', 'v1': str(v1Date), 'v2': str(v2Date), 'v3': str(v3Date), 'v4': str(v4Date), 'v5': str(v5Date), 'v6': str(v6Date)}, mother_id='null')
+        elif g_gender == 'm' and g_isBornOrBought == 0:
+            self.db.insertGoatRecord({'goat_id': goat_id, 'breed': g_breed, 'date_of_birth': g_dob,
+                                'weight': g_weight, 'gender': g_gender, 'pregnant': 'No'}, mother_id=g_motherId)
+        elif g_gender == 'm' and g_isBornOrBought == 1:
+            self.db.insertGoatRecord({'goat_id': goat_id, 'breed': g_breed, 'date_of_birth': g_dob,
+                                'weight': g_weight, 'gender': g_gender, 'pregnant': 'No', 'v1': str(v1Date), 'v2': str(v2Date), 'v3': str(v3Date), 'v4': str(v4Date), 'v5': str(v5Date), 'v6': str(v6Date)}, mother_id='null')
 
-            self.showSuccess()
-            
-            print({'goat_id': goat_id, 'breed': g_breed, 'date_of_birth': g_dob,
-                                   'weight': g_weight, 'gender': g_gender, 'pregnant': 0, 'v1': str(v1Date), 'v2': str(v2Date), 'v3': str(v3Date), 'v4': str(v4Date), 'v5': str(v5Date), 'v6': str(v6Date)})
+        self.showSuccess()
+        
+        print({'goat_id': goat_id, 'breed': g_breed, 'date_of_birth': g_dob,
+                                'weight': g_weight, 'gender': g_gender, 'pregnant': 'No', 'v1': str(v1Date), 'v2': str(v2Date), 'v3': str(v3Date), 'v4': str(v4Date), 'v5': str(v5Date), 'v6': str(v6Date)})
 
-            addGoat_support.destroy_window()
-
-        except: 
-            self.errorMsg()
+        addGoat_support.destroy_window()
 
     def disableVaccination(self):
         self.TEntry1_25.config(state=NORMAL)  

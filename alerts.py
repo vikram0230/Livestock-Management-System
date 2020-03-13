@@ -267,26 +267,9 @@ class Toplevel1:
         self.v5data = self.db.getGoatsToBeVaccinated(5)
         self.v6data = self.db.getGoatsToBeVaccinated(6)
 
-        if self.v1data != None:
-            for i in range(len(self.v1data)):
-                self.tree1.insert("", END, text="", values=self.v1data[i])
-        if self.v2data != None:
-            for i in range(len(self.v2data)):
-                self.tree2.insert("", END, text="", values=self.v2data[i])
-        if self.v3data != None:
-            for i in range(len(self.v3data)):
-                self.tree3.insert("", END, text="", values=self.v3data[i])
-        if self.v4data != None:
-            for i in range(len(self.v4data)):
-                self.tree4.insert("", END, text="", values=self.v4data[i])
-        if self.v5data != None:
-            for i in range(len(self.v5data)):
-                self.tree5.insert("", END, text="", values=self.v5data[i])
-        if self.v6data != None:
-            for i in range(len(self.v6data)):
-                self.tree6.insert("", END, text="", values=self.v6data[i])
-
         self.deliveryDates = self.db.getDeliveryDates()
+
+        self.breedReadyGoats = self.db.getBreedReadyGoats()
 
         if self.v1data != None:
             for i in range(len(self.v1data)):
@@ -309,6 +292,9 @@ class Toplevel1:
         if self.deliveryDates != None:
             for i in range(len(self.deliveryDates)):
                 self.tree7.insert("", END, text="", values=self.deliveryDates[i])
+        if self.breedReadyGoats != None:
+            for i in range(len(self.breedReadyGoats)):
+                self.tree8.insert("", END, text="", values=self.breedReadyGoats[i])
 
 # The following code is added to facilitate the Scrolled widgets you specified.
 class AutoScroll(object):

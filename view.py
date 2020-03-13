@@ -23,6 +23,11 @@ except ImportError:
 import view_support
 from tkinter import END
 from backend import DataBase
+import graph_backend as graph
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import pandas as pd
+
 
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
@@ -311,8 +316,7 @@ class Toplevel1:
         self.Canvas1.configure(wrap="word")
 
         self.Frame1 = tk.Frame(top)
-        self.Frame1.place(relx=0.325, rely=0.512, relheight=0.454
-                , relwidth=0.248)
+        self.Frame1.place(relx=0.325, rely=0.512, relheight=0.454, relwidth=0.248)
         self.Frame1.configure(relief='groove')
         self.Frame1.configure(borderwidth="2")
         self.Frame1.configure(relief="groove")
@@ -376,8 +380,6 @@ class Toplevel1:
         self.tree3.heading("#1", text="MOTHER ID")
         self.tree3.heading("#2", text="KID ID")
         self.tree3.heading("#3", text="GENDER")
-        
-
 
         self.Label2_1 = tk.Label(top)
         self.Label2_1.place(relx=0.041, rely=0.493, height=53, width=113)
@@ -555,18 +557,30 @@ class Toplevel1:
 
         self.Text1.insert(END, self.goatData[0])
 
-        self.isAlive = 'Yes' if self.goatData[10] == 1 else 'No'
+        self.isAlive = self.goatData[10]
         self.Canvas1.insert(END, self.isAlive)
 
-        self.isPregnant = 'Yes' if self.goatData[4] == 1 else 'No'
+        self.isPregnant = self.goatData[4]
         self.Canvas2.insert(END, self.isPregnant)
 
         self.populateTree()
 
-        self.db = None
-
         counter = 0
 
+        # Weight graph
+        data1 = self.db.getWeightRecords(goatData[0])
+        dataColumns1 = self.db.getWeightColumnNames(goatData[0])
+        df = pd.DataFrame(data1,columns=dataColumns1)
+        # print(type(df1.date_checked[0]))
+
+        figure = plt.Figure(figsize=(6,6), dpi=60)
+        ax1 = figure.add_subplot(111)
+        line2 = FigureCanvasTkAgg(figure, self.Frame1)
+        line2.get_tk_widget().pack(side=tk.LEFT, fill=tk.NONE,padx=2)
+        df.plot(kind='line',legend= True, ax=ax1, color='r',marker='o', fontsize=15)
+        ax1.set_title('Chart of Growth') 
+        ax1.set_xlabel('Date_checked')
+        # plt.xticks(df.index,df['Date_checked'])
 
     def populateTree(self):
         self.rowData = self.db.getKidsTableData(self.goatData[0])       
@@ -582,11 +596,6 @@ class Toplevel1:
         widget6.place_forget()
         widget7.place_forget()
      
-
-if __name__ == '__main__':
-    vp_start_gui()
-
-
 
 
 

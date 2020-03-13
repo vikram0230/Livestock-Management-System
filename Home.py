@@ -15,6 +15,9 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from PIL import ImageTk, Image
 import graph_backend as graph
+import pandas as pd
+from datetime import datetime, date
+
 
 from tkinter import PhotoImage, Label
 
@@ -70,34 +73,6 @@ def destroy_Toplevel1():
 
 class Toplevel1:
     def __init__(self, top=None):
-
-        breed1 = graph.getbreed1()
-        breed2 = graph.getbreed2()
-        data1 = {'Breed': ['breed1','breed2'],
-                 'Number': [breed1,breed2]
-                }
-        df1 = DataFrame(data1,columns=['Breed','Number'])
-        male = graph.getmale()
-        female = graph.getfemale()
-                # df1 = DataFrame(data1,columns=['Breed','Number'])
-
-        data2 = {'Year': [1920,1930,1940,1950,1960,1970,1980,1990,2000,2010],
-                 'Unemployment_Rate': [9.8,12,8,7.2,6.9,7,6.5,6.2,5.5,6.3]
-                }
-        df2 = DataFrame(data2,columns=['Year','Unemployment_Rate'])
-
-
-        data3 = {'Gender': ['Male','Female'],
-                 'Number': [male,female]
-                }  
-        df3 = DataFrame(data3,columns=['Gender','Number'])
-
-        birth = graph.getBirth()
-        death = graph.getDeath()
-
-        labels = 'birth rate','death rate'
-        sizes = [birth, death]
-        colors = ['lightcoral', 'lightskyblue']
 
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
@@ -180,50 +155,70 @@ class Toplevel1:
         self.Button2_3.configure(pady="0")
         self.Button2_3.configure(text='''Alerts''')
 
-        figure1 = plt.Figure(figsize=(4,4), dpi=60)
+        breed = graph.breed
+        gender = graph.gender
+        data1 = {'breed':breed,'gender':gender}
+
+        cur_holding = DataFrame(data1,columns=['breed','gender'])
+
+        figure1 = plt.Figure(figsize=(5,5), dpi=60)
         ax1 = figure1.add_subplot(111)
         bar1 = FigureCanvasTkAgg(figure1, root)
-        # bar1.get_tk_widget().pack(side=tk.LEFT, fill=tk.NONE,padx=8)
-        bar1.get_tk_widget().place(x=20,y=500)
-        df1 = df1[['Breed','Number']]
-        df1.plot(kind='bar', legend=True, ax=ax1, fontsize=10)
-        ax1.set_title('Breeds Vs Number')
+        bar1.get_tk_widget().place(x=20,y=430)
+        df1 = cur_holding[['breed','gender']]
+        pd.crosstab(cur_holding.breed,cur_holding.gender).plot(kind='bar', ax=ax1, fontsize=12)
+        ax1.set_title('Current Holding')
+        ax1.set_xlabel('Breed')
+        ax1.set_ylabel('Count')
+        ax1.tick_params(axis ='x', rotation = 0)
 
-        figure2 = plt.Figure(figsize=(4,4), dpi=60)
+        # Birth Rate
+
+        maleKidCount = graph.maleKidCount
+        femaleKidCount = graph.femaleKidCount
+        values2 = [maleKidCount, femaleKidCount]
+        label2 = 'Male:' + str(maleKidCount),'Female:' + str(femaleKidCount)
+        colors = ['lightcoral', 'lightskyblue']
+
+        figure2 = plt.Figure(figsize=(5,5), dpi=60)
         ax2 = figure2.add_subplot(111)
-        line2 = FigureCanvasTkAgg(figure2, root)
-        # line2.get_tk_widget().pack(side=tk.LEFT, fill=tk.NONE,padx=8)
-        line2.get_tk_widget().place(x=280,y=500)
-        df2 = df2[['Year','Unemployment_Rate']].groupby('Year').sum()
-        df2.plot(kind='line', legend=True, ax=ax2, color='r',marker='o', fontsize=5)
-        ax2.set_title('') 
+        ax2.pie(values2, labels=label2, colors=colors)
+        pie2 =  FigureCanvasTkAgg(figure2, root) 
+        pie2.get_tk_widget().place(x=340,y=430)
+        ax2.legend()
+        ax2.set_title('Birth Rate')
 
-        figure3 = plt.Figure(figsize=(4,4), dpi=60)
+        # Death Rate
+
+        maleDeadCount = graph.maleDeadCount
+        femaleDeadCount = graph.femaleDeadCount
+        values3 = [maleDeadCount, femaleDeadCount]
+        labels3 = 'Male:' + str(maleDeadCount),'Female:' + str(femaleDeadCount)
+
+        figure3 = plt.Figure(figsize=(5,5), dpi=60)
         ax3 = figure3.add_subplot(111)
-        bar3 = FigureCanvasTkAgg(figure3, root)
-        # bar1.get_tk_widget().pack(side=tk.LEFT, fill=tk.NONE,padx=8)
-        bar3.get_tk_widget().place(x=540,y=500)
-        df3 = df3[['Gender','Number']]
-        df3.plot(kind='bar', legend=True, ax=ax3, fontsize=10)
-        ax3.set_title('Gender Vs Number')
+        ax3.pie(values3, labels=labels3, colors=colors)
+        pie3 =  FigureCanvasTkAgg(figure3, root) 
+        pie3.get_tk_widget().place(x=660,y=430)
+        ax3.legend()
+        ax3.set_title('Death Rate')
 
-        # figure3 = plt.Figure(figsize=(4,4), dpi=60)
-        # ax3 = figure3.add_subplot(111)
-        # ax3.scatter(df3['Interest_Rate'],df3['Stock_Index_Price'], color = 'g')
-        # scatter3 = FigureCanvasTkAgg(figure3, root) 
-        # # scatter3.get_tk_widget().pack(side=tk.LEFT, fill=tk.NONE,padx=8)
-        # scatter3.get_tk_widget().place(x=570,y=420)
-        # ax3.legend() 
-        # ax3.set_xlabel('Interest Rate')
-        # ax3.set_title('Interest Rate Vs. Stock Index Price')
+        # Income Vs Expense
 
-        figure4 = plt.Figure(figsize=(4,4), dpi=60)
+        income = graph.income
+        expense = graph.expense
+        data4 = {'Finance':['Income','Expense'],
+                'Amount':[income,expense]}
+        df4 = DataFrame(data4,columns=['Finance','Amount'])
+
+        figure4 = plt.Figure(figsize=(6,6), dpi=50)
         ax4 = figure4.add_subplot(111)
-        ax4.pie(sizes, labels=labels, colors=colors)
-        pie4 =  FigureCanvasTkAgg(figure4, root) 
-        pie4.get_tk_widget().place(x=800,y=500)
-        ax4.legend()
-        ax4.set_title('Birth-Death Rate')
+        bar4 = FigureCanvasTkAgg(figure4, root)
+        bar4.get_tk_widget().place(x=980,y=430)
+        df4 = df4[['Finance','Amount']]
+        df4.plot(kind='bar', legend=True, ax=ax4, color='r', fontsize=12)
+        ax4.set_title('Income Vs Expense') 
+        ax4.set_xlabel('Income                      Expense',fontsize = 14)
              
     def openMasterChart(self):
         displayMasterChart()

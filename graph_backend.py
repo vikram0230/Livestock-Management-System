@@ -1,45 +1,55 @@
 import pandas as pd
 from backend import DataBase
+from datetime import datetime, date
+import view 
 
 db = DataBase()
 data = db.getGoatRecords()
 dataColumns = db.getColumnNames()
 df = pd.DataFrame(data,columns=dataColumns)
 
-birth = df['no_of_kids'].sum()
-death = 0
-for i in df['mortality']:
-	if(i==0):
-		death+=1
+breed = df['breed']	
 
-breed1 = 0
-for i in df['breed']:
-	if i == 'some':
-		breed1+=1
-breed2 = 0
-for i in df['breed']:
-	if i == 'somethi':
-		breed2+=1
 gender = df['gender']
-male = 0
-female = 0
-for i in gender:
-	if (i == 0):
-		male+=1
-	elif (i == 1):
-		female+=1
 
-def getfemale():
-	return female
-def getmale():
-	return male
-def getbreed1():
-	return breed1
-def getbreed2():
-	return breed2
-def getBirth():
-	return birth
-def getDeath():
-	return death
+dob = df['date_of_birth']
 
-# print(gender)
+kidCount = db.getKidCount()
+maleKidCount = 0
+femaleKidCount = 0
+
+if len(kidCount)>1:
+	if kidCount[0][1] == 'm':
+		maleKidCount = kidCount[0][0]
+		femaleKidCount = kidCount[1][0]
+	else:
+		maleKidCount = kidCount[1][0]
+		femaleKidCount = kidCount[0][0]
+else:
+	if kidCount[0][1] == 'm':
+		maleKidCount = kidCount[0][0]
+	else:
+		femaleKidCount = kidCount[0][0]
+
+deadCount = db.getDeadCount()
+maleDeadCount = 0
+femaleDeadCount = 0
+
+if len(deadCount)>1:
+	if deadCount[0][1] == 'm':
+		maleDeadCount = deadCount[0][0]
+		femaleDeadCount = deadCount[1][0]
+	else:
+		maleDeadCount = deadCount[1][0]
+		femaleDeadCount = deadCount[0][0]
+else:
+	if deadCount[0][1] == 'm':
+		maleDeadCount = deadCount[0][0]
+	else:
+		femaleDeadCount = deadCount[0][0]
+
+print(deadCount)
+
+income = db.getTotalLivestockNetworth()
+expense = db.getTotalLabourCost()+db.getTotalFeedCost()+db.getTotalHealthExpenditure()+db.getTotalMiscCost()
+

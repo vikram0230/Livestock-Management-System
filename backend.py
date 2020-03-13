@@ -11,7 +11,7 @@ if not (os.path.isfile('data.db')):
             - MasterTable
             - WeightTable
             - KidsIdTable
-            - LivestockNetwork
+            - LivestockNetworth
             - Labour
             - Feed
             - HealthExpense
@@ -23,15 +23,15 @@ if not (os.path.isfile('data.db')):
 
         c = conn.cursor()
 
-        createStmt_MasterDatabase = 'goat_no INTEGER PRIMARY KEY, breed TEXT, date_of_birth DATE, gender BOOLEAN, pregnant BOOLEAN, weight INT, date_of_delivery DATE, no_of_kids INT, no_of_male_kids INT, no_of_female_kids INT, mortality INT, v1 DATE, v2 DATE, v3 DATE, v4 DATE, v5 DATE, v6 DATE, sold_date DATE, sold_rate INT'
+        createStmt_MasterDatabase = 'goat_no INTEGER PRIMARY KEY, breed TEXT, date_of_birth DATE, gender TEXT, pregnant TEXT, weight INT, date_of_delivery DATE, no_of_kids INT, no_of_male_kids INT, no_of_female_kids INT, mortality TEXT, v1 DATE, v2 DATE, v3 DATE, v4 DATE, v5 DATE, v6 DATE, sold_date DATE, sold_rate INT'
         c.execute('CREATE TABLE MasterTable(' + createStmt_MasterDatabase + ')')
         conn.commit()
 
-        createStmt_KidsTable = 'mother_id INT, kid_id INT, gender BOOLEAN'
+        createStmt_KidsTable = 'mother_id INT, kid_id INT, gender TEXT'
         c.execute('CREATE TABLE KidsTable(' + createStmt_KidsTable + ')')
         conn.commit()
 
-        createStmt_LivestockNetworth = 's_no INTEGER PRIMARY KEY AUTOINCREMENT, category TEXT, breed TEXT, cost DOUBLE, total_weight INT, total_cost DOUBLE'
+        createStmt_LivestockNetworth = 'category TEXT, breed TEXT, cost INT, total_weight INT, total_cost INT'
         c.execute('CREATE TABLE LivestockNetworth(' + createStmt_LivestockNetworth + ')')
         conn.commit()
 
@@ -51,25 +51,110 @@ if not (os.path.isfile('data.db')):
         c.execute('CREATE TABLE Misc(' + createStmt_Misc + ')')
         conn.commit()
 
-        values = [
-            1, 'some', date(2001, 12, 21), '0', '0', 10, 0, 0, 0, 1
-        ]
+        values = {'goat_id':1, 'breed':'some', 'date_of_birth':date(2001, 12, 21), 'gender':'m', 'pregnant':'No', 'weight':10, 'no_of_kids':0, 'no_of_male_kids':0, 'no_of_female_kids':0, 'mortality':'Alive'}
 
         for i in range(0, 50):
-            c.execute(
-                "INSERT INTO MasterTable(goat_no, breed, date_of_birth, gender, pregnant, weight, no_of_kids, no_of_male_kids, no_of_female_kids, mortality) values(?,?,?,?,?,?,?,?,?,?)", values)
-            values[0] += 1
+            values['goat_id'] += 1
+            c.execute('INSERT INTO MasterTable (goat_no, breed, date_of_birth, gender, pregnant, weight, no_of_kids, no_of_male_kids, no_of_female_kids, mortality) VALUES(:goat_id, :breed, :date_of_birth, :gender, :pregnant, :weight, :no_of_kids, :no_of_male_kids, :no_of_female_kids, :mortality)', values)
+            # Creating a weight table for the goat passed
+            createStmt_WeightTable = 'weight INT, date_checked DATE'
+            c.execute('CREATE TABLE WeightTable' +
+                    str(values['goat_id']) + '(' + createStmt_WeightTable + ')')
+            conn.commit()
+
+            c.execute('INSERT INTO WeightTable' + str(values['goat_id']) + ' VALUES(:weight, :date_checked)', {
+                    'weight': values['weight'], 'date_checked': datetime.date(datetime.now())})
+
+            conn.commit()
+
+            # Get types of breeds present in LivestockNetworth
+            c.execute('SELECT breed, category FROM LivestockNetworth GROUP BY breed, category')
+            res = c.fetchall()
+            if len(res) != 0:
+                res = res[0]
+            
+            # Checking if new goat is kid or adult
+            c.execute('SELECT (julianday(:curdate) - julianday(:date_of_birth)) AS day WHERE day > 365 ', {'curdate': datetime.date(datetime.now()), 'date_of_birth': values['date_of_birth']})
+            r = c.fetchall()
+            age = 'Kid' if len(r) == 0 else 'Adult'
+
+            # Determining the category of the new goat
+            category = age + ' Male' if values['gender'] == 'm' else age + ' Female'
+
+            if len(res) == 0:
+                # Inserting the new record in LivestockNetworth
+                c.execute('INSERT INTO LivestockNetworth(category, breed, cost, total_weight, total_cost) VALUES(:category, :breed, 0, :total_weight, 0)', {'category': category, 'breed': values['breed'], 'total_weight': values['weight']})
+                conn.commit()
+            else:
+                # Checking whether it already exists
+                if res[0] == values['breed'] and res[1] == category:
+                    # Getting total weight from the LivestockNetworth
+                    c.execute('SELECT total_weight FROM LivestockNetworth WHERE breed=:breed AND category=:category', {'breed': res[0], 'category': res[1]})
+                    total_weight = c.fetchall()[0][0] + values['weight']
+
+                    # Update total weight in LivestockNetworth
+                    c.execute('UPDATE LivestockNetworth SET total_weight=:total_weight', {'total_weight': total_weight})
+                    conn.commit()
+                else:
+                    # Inserting the new record in LivestockNetworth
+                    c.execute('INSERT INTO LivestockNetworth(category, breed, cost, total_weight, total_cost) VALUES(:category, :breed, 0, :total_weight, 0)', {'category': category, 'breed': values['breed'], 'total_weight': values['weight']})
+                    conn.commit()
+
+def updateLiveStockNetworth(values):
+    # Get types of breeds present in LivestockNetworth
+    c.execute('SELECT breed, category FROM LivestockNetworth GROUP BY breed, category')
+    res = c.fetchall()
+    if len(res) != 0:
+        res = res[0]
+    
+    # Checking if new goat is kid or adult
+    c.execute('SELECT (julianday(:curdate) - julianday(:date_of_birth)) AS day WHERE day > 365 ', {'curdate': datetime.date(datetime.now()), 'date_of_birth': values['date_of_birth']})
+    r = c.fetchall()
+    age = 'Kid' if len(r) == 0 else 'Adult'
+
+    # Determining the category of the new goat
+    category = age + ' Male' if values['gender'] == 'm' else age + ' Female'
+
+    if len(res) == 0:
+        # Inserting the new record in LivestockNetworth
+        c.execute('INSERT INTO LivestockNetworth(category, breed, cost, total_weight, total_cost) VALUES(:category, :breed, 0, :total_weight, 0)', {'category': category, 'breed': values['breed'], 'total_weight': values['weight']})
+        conn.commit()
+    else:
+        # Checking whether it already exists
+        if res[0] == values['breed'] and res[1] == category:
+            # Getting total weight from the LivestockNetworth
+            c.execute('SELECT total_weight FROM LivestockNetworth WHERE breed=:breed AND category=:category', {'breed': res[0], 'category': res[1]})
+            total_weight = c.fetchall()[0][0] + values['weight']
+
+            # Update total weight in LivestockNetworth
+            c.execute('UPDATE LivestockNetworth SET total_weight=:total_weight', {'total_weight': total_weight})
+            conn.commit()
+        else:
+            # Inserting the new record in LivestockNetworth
+            c.execute('INSERT INTO LivestockNetworth(category, breed, cost, total_weight, total_cost) VALUES(:category, :breed, 0, :total_weight, 0)', {'category': category, 'breed': values['breed'], 'total_weight': values['weight']})
             conn.commit()
 
 conn = sqlite3.connect('data.db')
 
 c = conn.cursor()
 
+if datetime.date(datetime.now()) == date(date.today().year, 4, 1):
+    c.execute('DELETE FROM Labour')
+    c.execute('DELETE FROM Feed')
+    c.execute('DELETE FROM HealthExpense')
+    c.execute('DELETE FROM Misc')
+    c.execute('DELETE FROM MasterTable WHERE sold_rate!=\'None\' OR mortality=\'Dead\'')
+    c.execute('DELETE FROM LivestockNetworth')
+
+    c.execute('SELECT goat_no, breed, date_of_birth, weight, gender FROM MasterTable')
+    result = c.fetchall()
+    for res in result:
+        values = {'goat_id': res[0], 'breed': res[1], 'date_of_birth': res[2], 'weight': res[3], 'gender': res[4]}
+        updateLiveStockNetworth(values)
 
 class DataBase:
     def __init__(self):
         pass
-
     def getGoatRecords(self):
         c.execute('SELECT * FROM MasterTable')
         return c.fetchall()
@@ -94,23 +179,21 @@ class DataBase:
             # Updating number of kids
             c.execute('SELECT no_of_kids, no_of_male_kids, no_of_female_kids FROM MasterTable WHERE goat_no=:goat_id', {'goat_id': mother_id})
             res = c.fetchall()
-            res = list(res[0])
+            res = list(res[0]) if len(res) != 0 else [0, 0, 0]
             res[0] += 1
         
             c.execute('UPDATE MasterTable SET no_of_kids=:no_of_kids WHERE goat_no=:mother_id', {'no_of_kids': res[0], 'mother_id': mother_id})
             
-            if values['gender'] == 0:
+            if values['gender'] == 'm':
                 res[1] += 1
                 c.execute('UPDATE MasterTable SET no_of_male_kids=:no_of_male_kids WHERE goat_no=:mother_id', {'no_of_male_kids': res[1], 'mother_id': mother_id})
-            elif values['gender'] == 1:
+            elif values['gender'] == 'f':
                 res[2] += 1
                 c.execute('UPDATE MasterTable SET no_of_female_kids=:no_of_female_kids WHERE goat_no=:mother_id', {'no_of_female_kids': res[2], 'mother_id': mother_id})
-
-
         conn.commit()
 
         # Updating mortality
-        c.execute('UPDATE MasterTable SET mortality=1 WHERE goat_no=:goat_id', {'goat_id': values['goat_id']})
+        c.execute('UPDATE MasterTable SET mortality=\'Alive\' WHERE goat_no=:goat_id', {'goat_id': values['goat_id']})
         conn.commit()
 
         # Creating a weight table for the goat passed
@@ -121,19 +204,55 @@ class DataBase:
         conn.commit()
 
         c.execute('INSERT INTO WeightTable' + str(values['goat_id']) + ' VALUES(:weight, :date_checked)', {
-                  'weight': values['weight'], 'date_checked': datetime.date(datetime.now())})
+                'weight': values['weight'], 'date_checked': datetime.date(datetime.now())})
 
         conn.commit()
 
+        self.updateLiveStockNetworth(values)
+
         print('Inserted successfully')
 
+    def updateLiveStockNetworth(self, values):
+        # Get types of breeds present in LivestockNetworth
+        c.execute('SELECT breed, category FROM LivestockNetworth GROUP BY breed, category')
+        res = c.fetchall()
+        if len(res) != 0:
+            res = res[0]
+        
+        # Checking if new goat is kid or adult
+        c.execute('SELECT (julianday(:curdate) - julianday(:date_of_birth)) AS day WHERE day > 365 ', {'curdate': datetime.date(datetime.now()), 'date_of_birth': values['date_of_birth']})
+        r = c.fetchall()
+        age = 'Kid' if len(r) == 0 else 'Adult'
+
+        # Determining the category of the new goat
+        category = age + ' Male' if values['gender'] == 'm' else age + ' Female'
+
+        if len(res) == 0:
+            # Inserting the new record in LivestockNetworth
+            c.execute('INSERT INTO LivestockNetworth(category, breed, cost, total_weight, total_cost) VALUES(:category, :breed, 0, :total_weight, 0)', {'category': category, 'breed': values['breed'], 'total_weight': values['weight']})
+            conn.commit()
+        else:
+            # Checking whether it already exists
+            if res[0] == values['breed'] and res[1] == category:
+                # Getting total weight from the LivestockNetworth
+                c.execute('SELECT total_weight FROM LivestockNetworth WHERE breed=:breed AND category=:category', {'breed': res[0], 'category': res[1]})
+                total_weight = c.fetchall()[0][0] + values['weight']
+
+                # Update total weight in LivestockNetworth
+                c.execute('UPDATE LivestockNetworth SET total_weight=:total_weight', {'total_weight': total_weight})
+                conn.commit()
+            else:
+                # Inserting the new record in LivestockNetworth
+                c.execute('INSERT INTO LivestockNetworth(category, breed, cost, total_weight, total_cost) VALUES(:category, :breed, 0, :total_weight, 0)', {'category': category, 'breed': values['breed'], 'total_weight': values['weight']})
+                conn.commit()
+
     def getMaleKidID(self, mother_id):
-        c.execute('SELECT kid_id FROM KidsTable WHERE mother_id = ' + mother_id + ' AND gender = 0')
+        c.execute('SELECT kid_id FROM KidsTable WHERE mother_id = ' + mother_id + ' AND gender = \'m\'')
         res = c.fetchall()
         return res
 
     def getFemaleKidID(self, mother_id):
-        c.execute('SELECT kid_id FROM KidsTable WHERE mother_id = ' + mother_id + ' AND gender = 1')
+        c.execute('SELECT kid_id FROM KidsTable WHERE mother_id = ' + mother_id + ' AND gender = \'f\'')
         res = c.fetchall()
         return res
 
@@ -155,7 +274,7 @@ class DataBase:
             c.execute('UPDATE MasterTable SET weight=:weight WHERE goat_no=:goat_id', goatValues)
         
         date_of_delivery = str(datetime.date(datetime.now()) + timedelta(days=150))
-        if goatValues['pregnant'] == 1:
+        if goatValues['pregnant'] == 'Yes':
             c.execute('UPDATE MasterTable SET pregnant=:pregnant, date_of_delivery=:date_of_delivery WHERE goat_no=:goat_id', {'pregnant': goatValues['pregnant'], 'date_of_delivery': date_of_delivery, 'goat_id': goatValues['goat_id']})
         
         conn.commit()
@@ -186,7 +305,7 @@ class DataBase:
 
     # Alerts table
     def getGoatsToBeVaccinated(self, vacc_no):
-        c.execute('SELECT goat_no, v' + str(vacc_no) + ' FROM MasterTable WHERE v' + str(vacc_no) + ' > ' + str(datetime.date(datetime.now())))
+        c.execute('SELECT goat_no, v' + str(vacc_no) + ' FROM MasterTable WHERE julianday(v' + str(vacc_no) + ') > (' + str(datetime.date(datetime.now())) + ')')
         res = c.fetchall()
         dates = list()
         for rec in res:
@@ -211,6 +330,10 @@ class DataBase:
         dates.sort(key=lambda x: x[1], reverse=True)
         return dates
 
+    def getBreedReadyGoats(self):
+        c.execute('SELECT goat_no, breed FROM MasterTable WHERE (julianday(:curdate) - julianday(date_of_birth) > 365)AND ((julianday(:curdate) - julianday(date_of_delivery) > 90)OR(pregnant=\'No\')) AND(gender=\'f\')' , {'curdate': datetime.date(datetime.now())})
+        res = c.fetchall()
+        return res
 
     # For View goat
     def getKidsTableData(self, goat_no):
@@ -218,7 +341,29 @@ class DataBase:
         res = c.fetchall()
         return res
 
+
     # For Finance Window
+
+    # LivestockNetworth Table
+    def insertLiveStockNetworth(self, networthValues):
+        c.execute('UPDATE LivestockNetworth SET cost=:cost WHERE category=:category AND breed=:breed AND total_weight=:total_weight', networthValues)
+        total_cost = networthValues['cost'] * networthValues['total_weight']
+        networthValues['total_cost'] = total_cost
+        c.execute('UPDATE LivestockNetworth SET total_cost=:total_cost WHERE category=:category AND breed=:breed AND total_weight=:total_weight AND cost=:cost', networthValues)
+        conn.commit()
+
+    def getTotalLivestockNetworth(self):
+        c.execute('SELECT SUM(total_cost) FROM LivestockNetworth')
+        res = c.fetchall()
+        if res[0][0] != None:
+            return res[0][0]
+        else:
+            return 0
+    
+    def getLivestockNetworthData(self):
+        c.execute('SELECT * FROM LivestockNetworth')
+        res = c.fetchall()
+        return res
 
     # Labour Table
     def insertLabour(self, labourValues):
@@ -236,10 +381,13 @@ class DataBase:
     def getTotalLabourCost(self):
         c.execute('SELECT SUM(monthly_total) FROM Labour')
         res = c.fetchall()
-        return res[0][0]
+        if res[0][0] != None:
+            return res[0][0]
+        else:
+            return 0
     
     def deleteLabourRecord(self, labourValues):
-        c.execute('DELETE FROM Labour WHERE category=:category AND salary=:salary AND count=:count')
+        c.execute('DELETE FROM Labour WHERE category=:category AND salary=:salary AND count=:count', labourValues)
         conn.commit()
 
     # Feed Table
@@ -257,7 +405,10 @@ class DataBase:
     def getTotalFeedCost(self):
         c.execute('SELECT SUM(total_cost) FROM Feed')
         res = c.fetchall()
-        return res[0][0]
+        if res[0][0] != None:
+            return res[0][0]
+        else:
+            return 0
 
     def deleteFeedRecord(self, feedValues):
         c.execute('DELETE FROM Feed WHERE purchase_date=:purchase_date AND item=:item AND weight=:weight AND cost=:cost', feedValues)
@@ -272,7 +423,10 @@ class DataBase:
     def getTotalHealthExpenditure(self):
         c.execute('SELECT SUM(cost) FROM HealthExpense')
         res = c.fetchall()
-        return res[0][0]
+        if res[0][0] != None:
+            return res[0][0]
+        else:
+            return 0
 
     def getHealthExpenditureData(self):
         c.execute('SELECT * FROM HealthExpense')
@@ -293,7 +447,10 @@ class DataBase:
     def getTotalMiscCost(self):
         c.execute('SELECT SUM(cost) FROM Misc')
         res = c.fetchall()
-        return res[0][0]
+        if res[0][0] != None:
+            return res[0][0]
+        else:
+            return 0
 
     def getMiscData(self):
         c.execute('SELECT * FROM Misc')
@@ -304,25 +461,24 @@ class DataBase:
         c.execute('DELETE FROM Misc WHERE purchase_date=:purchase_date AND details=:details AND cost=:cost', miscValues)
         conn.commit()
 
-    # Networth Table
-    def getNetworthData(self):
-        # c.execute('SELECT goat_no, breed, SUM(weight) FROM MasterTable GROUP BY(breed) HAVING gender=0 AND breed IN (SELECT breed FROM MasterTable WHERE :curdate - date_of_birth > 1)', {'curdate': datetime.date(datetime.now())})
-        # print(c.fetchall())
-        # c.execute('SELECT goat_no, breed, SUM(weight) FROM MasterTable GROUP BY(breed) HAVING gender=1 AND breed IN (SELECT breed FROM MasterTable WHERE :curdate - date_of_birth > 1)', {'curdate': datetime.date(datetime.now())})
-        # print(c.fetchall())
-        # c.execute('SELECT goat_no, breed, SUM(weight) FROM MasterTable GROUP BY(breed) HAVING gender=0 AND breed IN (SELECT breed FROM MasterTable WHERE :curdate - date_of_birth < 1)', {'curdate': datetime.date(datetime.now())})
-        # print(c.fetchall())
-        # c.execute('SELECT goat_no, breed, SUM(weight) FROM MasterTable GROUP BY(breed) HAVING gender=1 AND breed IN (SELECT breed FROM MasterTable WHERE :curdate - date_of_birth < 1)', {'curdate': datetime.date(datetime.now())})
-        # print(c.fetchall())
+    # Financial year table
+    def getFinancialYearRecords(self):
+        c.execute('SELECT ')
 
-        # ------------------------------------------------------------------------------------------------#
-        # To use this function, create an instance of this class in another dummy file and execute this function to see the results easily #
-        # ------------------------------------------------------------------------------------------------#
-        # julianday(:curdate) - julianday(date_of_birth) returns the number of days between the two dates #
-        # ------------------------------------------------------------------------------------------------#
-        # Code works for kid and adult male, kid female goats. It DOES NOT work for adult female goat #
-        # ------------------------------------------------------------------------------------------------#
-        c.execute('SELECT breed, sum(weight), gender FROM MasterTable GROUP BY breed, gender HAVING (julianday(:curdate) - julianday(date_of_birth)) > 365 AND gender = 1 OR gender = 0', {'curdate': datetime.date(datetime.now())})
-        print(c.fetchall())
-        c.execute('SELECT breed, sum(weight), gender FROM MasterTable GROUP BY breed, gender HAVING (julianday(:curdate) - julianday(date_of_birth)) < 365', {'curdate': datetime.date(datetime.now())})
-        print(c.fetchall())
+    #Graph 
+    def getWeightRecords(self, goat_id):
+        c.execute('SELECT * FROM WeightTable' +str(goat_id))
+        return c.fetchall()
+
+    def getWeightColumnNames(self, goat_id):
+        c.execute('SELECT * FROM WeightTable'+str(goat_id))
+        names = [description[0] for description in c.description]
+        return names
+
+    def getKidCount(self):
+        c.execute('SELECT count(goat_no),gender FROM MasterTable where (julianday(:dob) - julianday(date_of_birth) )< 365 GROUP BY gender', {'dob': datetime.date(datetime.now())})
+        return c.fetchall()
+
+    def getDeadCount(self):
+        c.execute('SELECT count(goat_no),gender FROM MasterTable where mortality=\'Dead\' GROUP BY gender')
+        return c.fetchall()
