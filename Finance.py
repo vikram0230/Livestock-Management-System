@@ -16,6 +16,10 @@ import Finance_support
 from tkinter import END
 from backend import DataBase
 from tkinter import messagebox
+import pandas as pd
+from datetime import datetime, datetime
+import xlsxwriter
+
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
     global val, w, root
@@ -62,8 +66,7 @@ class Toplevel1:
         top.resizable(1, 1)
         top.title("New Toplevel")
         top.configure(background="#d9d9d9")
-        top.configure(cursor="watch")
-
+        
         self.db = DataBase()
 
         self.header = tk.Label(top)
@@ -234,7 +237,19 @@ class Toplevel1:
         self.TEntry02 = ttk.Entry(self.Frame6)
         self.TEntry02.place(relx=0.55,rely=0.54, height=33, width=140)
         self.TEntry02.configure(takefocus="")
-        self.TEntry02.configure(cursor="watch")
+
+        self.GenXcel = tk.Button(self.Frame6, command = self.genExcel)
+        self.GenXcel.place(relx=0.35, rely=0.662, height=50, width=140)
+        self.GenXcel.configure(activebackground="#ececec")
+        self.GenXcel.configure(activeforeground="#000000")
+        self.GenXcel.configure(background="#d9d9d9")
+        self.GenXcel.configure(disabledforeground="#a3a3a3")
+        self.GenXcel.configure(foreground="#000000")
+        self.GenXcel.configure(highlightbackground="#d9d9d9")
+        self.GenXcel.configure(highlightcolor="black")
+        self.GenXcel.configure(pady="0")
+        self.GenXcel.configure(font="-family {Segoe UI} -size 11 -weight bold")
+        self.GenXcel.configure(text='''Generate Excel''')
 
         self.Close = tk.Button(self.Frame6, command = lambda: self.cancel(self.Frame6))
         self.Close.place(relx=0.45, rely=0.842, height=30, width=59)
@@ -1305,4 +1320,54 @@ class Toplevel1:
             w.deiconify()
         else:
             w.deiconify()
+
+    def genExcel(self):
+
+        goatdata = self.db.getGoatRecords()
+        goatdataColumns = self.db.getColumnNames()
+        goatdf = pd.DataFrame(goatdata,columns=goatdataColumns)
+        goatdf.name = 'Master Table'
+
+        kiddata = self.db.getKidRecords()
+        kiddataColumns = self.db.getKidColumnNames()
+        kiddf = pd.DataFrame(kiddata, columns = kiddataColumns)
+        kiddf.name = 'Mother-Kid Table'
+
+        livestockdata = self.db.getLivestockRecords()
+        livestockdataColumns = self.db.getLivestockColumnNames()
+        livestockdf = pd.DataFrame(livestockdata, columns = livestockdataColumns)
+        livestockdf.name = 'LiveStock Networth'
+
+        labourdata = self.db.getLabourRecords()
+        labourdataColumns = self.db.getLabourColumnNames()
+        labourdf = pd.DataFrame(labourdata,columns= labourdataColumns)
+        labourdf.name = 'Labour Salary'
+
+        feeddata = self.db.getFeedRecords()
+        feeddataColumns = self.db.getFeedColumnNames()
+        feeddf = pd.DataFrame(feeddata,columns= feeddataColumns)
+        feeddf.name = 'Feed'
+
+        healthdata = self.db.getHealthRecords()
+        healthdataColumns = self.db.getHealthColumnNames()
+        healthdf = pd.DataFrame(healthdata,columns= healthdataColumns)
+        healthdf.name = 'Health Expenses'
+
+        miscdata = self.db.getMiscRecords()
+        miscdataColumns = self.db.getMiscColumnNames()
+        miscdf = pd.DataFrame(miscdata,columns= miscdataColumns)
+        miscdf.name = 'Miscellaneous Expenses'
+
+        writer = pd.ExcelWriter('f:\\livestock ' + str(datetime.date(datetime.now())) + '.xlsx',engine='xlsxwriter')
+
+        goatdf.to_excel(writer, sheet_name=goatdf.name)
+        kiddf.to_excel(writer, sheet_name=kiddf.name)
+        livestockdf.to_excel(writer, sheet_name=livestockdf.name)
+        labourdf.to_excel(writer, sheet_name=labourdf.name)
+        feeddf.to_excel(writer, sheet_name=feeddf.name)
+        healthdf.to_excel(writer, sheet_name=healthdf.name)
+        miscdf.to_excel(writer, sheet_name=miscdf.name)
+
+        writer.save()
+
 

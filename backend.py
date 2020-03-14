@@ -461,11 +461,7 @@ class DataBase:
         c.execute('DELETE FROM Misc WHERE purchase_date=:purchase_date AND details=:details AND cost=:cost', miscValues)
         conn.commit()
 
-    # Financial year table
-    def getFinancialYearRecords(self):
-        c.execute('SELECT ')
-
-    #Graph 
+    # Graph 
     def getWeightRecords(self, goat_id):
         c.execute('SELECT * FROM WeightTable' +str(goat_id))
         return c.fetchall()
@@ -482,3 +478,58 @@ class DataBase:
     def getDeadCount(self):
         c.execute('SELECT count(goat_no),gender FROM MasterTable where mortality=\'Dead\' GROUP BY gender')
         return c.fetchall()
+
+    # Excel
+    def getKidRecords(self):
+        c.execute('SELECT * FROM KidsTable')
+        return c.fetchall()
+
+    def getKidColumnNames(self):
+        c.execute('SELECT * FROM KidsTable')
+        names = [description[0] for description in c.description]
+        return names
+
+    def getLivestockRecords(self):
+        c.execute('SELECT * FROM LivestockNetworth')
+        return c.fetchall()
+
+    def getLivestockColumnNames(self):
+        c.execute('SELECT * FROM LivestockNetworth')
+        names = [description[0] for description in c.description]
+        return names
+
+    def getLabourRecords(self):
+        c.execute('SELECT * FROM Labour')
+        return c.fetchall()
+
+    def getLabourColumnNames(self):
+        c.execute('SELECT * FROM Labour')
+        names = [description[0] for description in c.description]
+        return names
+
+    def getFeedRecords(self):
+        c.execute('SELECT * FROM Feed')
+        return c.fetchall()
+
+    def getFeedColumnNames(self):
+        c.execute('SELECT * FROM Feed')
+        names = [description[0] for description in c.description]
+        return names
+
+    def getHealthRecords(self):
+        c.execute('SELECT * FROM HealthExpense')
+        return c.fetchall()
+
+    def getHealthColumnNames(self):
+        c.execute('SELECT * FROM HealthExpense')
+        names = [description[0] for description in c.description]
+        return names
+
+    def getMiscRecords(self):
+        c.execute('SELECT * FROM Misc')
+        return c.fetchall()
+
+    def getMiscColumnNames(self):
+        c.execute('SELECT * FROM Misc')
+        names = [description[0] for description in c.description]
+        return names
