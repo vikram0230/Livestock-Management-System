@@ -562,7 +562,6 @@ def displayMasterChart():
     root.resizable(0, 0)
     root.title("Home")
     root.configure(background="#f3f3f3")
-    root.configure(cursor="watch")
     root.configure(highlightbackground="#d9d9d9")
     root.configure(highlightcolor="#090000")
 
@@ -593,7 +592,7 @@ def displayMasterChart():
         menu.add_command(label="View", command=lambda: view.create_Toplevel1(root, row_data))
 
     mc = Multicolumn_Listbox(Frame1, db.getColumnNames(), stripped_rows = ("white","#f2f2f2"), command=on_select, cell_anchor="center", height=700, adjust_heading_to_content=True)
-    mc.interior.pack()
+    mc.interior.place(relx=0.015,rely=0,relheight= 1,relwidth=0.95)
 
     def populateTree():
         for record in db.getGoatRecords():

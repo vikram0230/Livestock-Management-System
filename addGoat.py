@@ -88,7 +88,6 @@ class Toplevel1:
         top.resizable(0, 0)
         top.title("New Toplevel")
         top.configure(background="#40e0d0")
-        top.configure(cursor="watch")
         top.configure(highlightbackground="#d9d9d9")
         top.configure(highlightcolor="black")
 
@@ -162,7 +161,6 @@ class Toplevel1:
         self.TEntry1 = ttk.Entry(top)
         self.TEntry1.place(x=250,y=155, height=35, width=140)
         self.TEntry1.configure(takefocus="")
-        self.TEntry1.configure(cursor="watch")
 
         self.breed = tk.Label(top)
         self.breed.place(x=80,y=200, height=35, width=98)
@@ -178,7 +176,6 @@ class Toplevel1:
         self.TEntry1_22 = ttk.Entry(top)
         self.TEntry1_22.place(x=250,y=200,height=35, width=140)
         self.TEntry1_22.configure(takefocus="")
-        self.TEntry1_22.configure(cursor="watch")
 
         self.DOB = tk.Label(top)
         self.DOB.place(x=80,y=245, height=35, width=98)
@@ -209,7 +206,6 @@ class Toplevel1:
         self.TEntry1_24 = ttk.Entry(top)
         self.TEntry1_24.place(x=250,y=335,height=35, width=140)
         self.TEntry1_24.configure(takefocus="")
-        self.TEntry1_24.configure(cursor="watch")
 
         self.weight = tk.Label(top)
         self.weight.place(x=80,y=335, height=35, width=98)
@@ -225,7 +221,6 @@ class Toplevel1:
         self.TEntry1_25 = ttk.Entry(top)
         self.TEntry1_25.place(x=250,y=290,height=35, width=140)
         self.TEntry1_25.configure(takefocus="")
-        self.TEntry1_25.configure(cursor="watch")
 
         self.gender = tk.Label(top)
         self.gender.place(x=80,y=395, height=40, width=98)

@@ -408,7 +408,6 @@ class Toplevel1:
         self.TEntry13 = ttk.Entry(self.Frame1)
         self.TEntry13.place(relx=0.5,rely=0.09, height=35, width=140)
         self.TEntry13.configure(takefocus="")
-        self.TEntry13.configure(cursor="watch")
 
         self.Label16 = tk.Label(self.Frame1)
         self.Label16.place_forget()
@@ -429,7 +428,6 @@ class Toplevel1:
         self.TEntry15 = ttk.Entry(self.Frame1)
         self.TEntry15.place_forget()
         self.TEntry15.configure(takefocus="")
-        self.TEntry15.configure(cursor="watch")
 
         self.Submit1 = tk.Button(self.Frame1, command=self.acceptLivestockNetworth)
         self.Submit1.place(relx=0.580, rely=0.842, height=30, width=59)
@@ -486,7 +484,6 @@ class Toplevel1:
         self.TEntry23 = ttk.Entry(self.Frame2)
         self.TEntry23.place(relx=0.5,rely=0.09, height=35, width=140)
         self.TEntry23.configure(takefocus="")
-        self.TEntry23.configure(cursor="watch")
 
         self.Label24 = tk.Label(self.Frame2)
         self.Label24.place(relx=0.35, rely=0.2, height=26, width=133)
@@ -516,7 +513,6 @@ class Toplevel1:
         self.TEntry26 = ttk.Entry(self.Frame2)
         self.TEntry26.place(relx=0.5,rely=0.29, height=35, width=140)
         self.TEntry26.configure(takefocus="")
-        self.TEntry26.configure(cursor="watch")
 
         self.Label27 = tk.Label(self.Frame2)
         self.Label27.place(relx=0.1, rely=0.4, height=26, width=133)
@@ -529,7 +525,6 @@ class Toplevel1:
         self.TEntry28 = ttk.Entry(self.Frame2)
         self.TEntry28.place(relx=0.5,rely=0.39, height=35, width=140)
         self.TEntry28.configure(takefocus="")
-        self.TEntry28.configure(cursor="watch")
 
         self.Label29 = tk.Label(self.Frame2)
         self.Label29.place(relx=0.1, rely=0.5, height=26, width=133)
@@ -542,7 +537,6 @@ class Toplevel1:
         self.TEntry210 = ttk.Entry(self.Frame2)
         self.TEntry210.place(relx=0.5,rely=0.49, height=35, width=140)
         self.TEntry210.configure(takefocus="")
-        self.TEntry210.configure(cursor="watch")
 
         self.Submit2 = tk.Button(self.Frame2, command=self.acceptLabour)
         self.Submit2.place(relx=0.580, rely=0.842, height=30, width=59)
@@ -612,7 +606,6 @@ class Toplevel1:
         self.TEntry33 = ttk.Entry(self.Frame3)
         self.TEntry33.place(relx=0.5,rely=0.09, height=35, width=140)
         self.TEntry33.configure(takefocus="")
-        self.TEntry33.configure(cursor="watch")
 
         self.Label34 = tk.Label(self.Frame3)
         self.Label34.place(relx=0.35, rely=0.2, height=26, width=133)
@@ -642,7 +635,6 @@ class Toplevel1:
         self.TEntry36 = ttk.Entry(self.Frame3)
         self.TEntry36.place(relx=0.5,rely=0.29, height=35, width=140)
         self.TEntry36.configure(takefocus="")
-        self.TEntry36.configure(cursor="watch")
 
         self.Label37 = tk.Label(self.Frame3)
         self.Label37.place(relx=0.1, rely=0.4, height=26, width=133)
@@ -655,7 +647,6 @@ class Toplevel1:
         self.TEntry38 = ttk.Entry(self.Frame3)
         self.TEntry38.place(relx=0.5,rely=0.39, height=35, width=140)
         self.TEntry38.configure(takefocus="")
-        self.TEntry38.configure(cursor="watch")
 
         self.Label39 = tk.Label(self.Frame3)
         self.Label39.place(relx=0.1, rely=0.5, height=26, width=133)
@@ -668,7 +659,6 @@ class Toplevel1:
         self.TEntry310 = ttk.Entry(self.Frame3)
         self.TEntry310.place(relx=0.5,rely=0.49, height=35, width=140)
         self.TEntry310.configure(takefocus="")
-        self.TEntry310.configure(cursor="watch")
 
         self.Submit3 = tk.Button(self.Frame3, command = self.acceptFeed)
         self.Submit3.place(relx=0.580, rely=0.842, height=30, width=59)
@@ -737,7 +727,6 @@ class Toplevel1:
         self.TEntry43 = ttk.Entry(self.Frame4)
         self.TEntry43.place(relx=0.5,rely=0.09, height=35, width=140)
         self.TEntry43.configure(takefocus="")
-        self.TEntry43.configure(cursor="watch")
 
         self.Label44 = tk.Label(self.Frame4)
         self.Label44.place(relx=0.35, rely=0.2, height=26, width=133)
@@ -767,7 +756,6 @@ class Toplevel1:
         self.TEntry46 = ttk.Entry(self.Frame4)
         self.TEntry46.place(relx=0.5,rely=0.29, height=35, width=140)
         self.TEntry46.configure(takefocus="")
-        self.TEntry46.configure(cursor="watch")
 
         self.Label47 = tk.Label(self.Frame4)
         self.Label47.place(relx=0.1, rely=0.4, height=26, width=133)
@@ -849,7 +837,6 @@ class Toplevel1:
         self.TEntry53 = ttk.Entry(self.Frame5)
         self.TEntry53.place(relx=0.5,rely=0.09, height=35, width=140)
         self.TEntry53.configure(takefocus="")
-        self.TEntry53.configure(cursor="watch")
 
         self.Label54 = tk.Label(self.Frame5)
         self.Label54.place(relx=0.35, rely=0.2, height=26, width=133)
@@ -879,7 +866,6 @@ class Toplevel1:
         self.TEntry56 = ttk.Entry(self.Frame5)
         self.TEntry56.place(relx=0.5,rely=0.29, height=35, width=140)
         self.TEntry56.configure(takefocus="")
-        self.TEntry56.configure(cursor="watch")
 
         self.Label57 = tk.Label(self.Frame5)
         self.Label57.place(relx=0.1, rely=0.4, height=26, width=133)
@@ -892,7 +878,6 @@ class Toplevel1:
         self.TEntry58 = ttk.Entry(self.Frame5)
         self.TEntry58.place(relx=0.5,rely=0.39, height=35, width=140)
         self.TEntry58.configure(takefocus="")
-        self.TEntry58.configure(cursor="watch")
 
         self.Submit5 = tk.Button(self.Frame5, command = self.acceptMisc)
         self.Submit5.place(relx=0.580, rely=0.842, height=30, width=59)
