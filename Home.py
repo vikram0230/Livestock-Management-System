@@ -1,7 +1,6 @@
 import sys
 import os.path
 import numpy as np
-# from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.animation as ani
 from pandas import DataFrame
@@ -13,15 +12,12 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, date
 from tkinter import *
-
-
 from tkinter import PhotoImage, Label
 
 from MasterChart import displayMasterChart
 import addGoat
 import alerts
 import Finance
-# import graphplot
 
 try:
     import Tkinter as tk
@@ -99,6 +95,42 @@ class Toplevel1:
         self.Label1.configure(image=_img0)
         self.Label1.configure(text='''Label''')
 
+        self.frame1 = tk.Frame(top)
+        self.frame1.place(relx=0.01, rely=0.01, relheight=0.1, relwidth=0.1)
+        self.frame1.configure(relief='groove')
+        self.frame1.configure(borderwidth="2")
+        self.frame1.configure(relief="groove")
+        self.frame1.configure(background="#d9d9d9")
+
+        self.Label1_5 = tk.Label(self.frame1)
+
+        self.Label1_6 = tk.Label(self.frame1)
+
+        # self.frame2 = tk.Frame(top)
+        # self.frame2.place(relx=0.01, rely=0.01, relheight=0.1, relwidth=0.1)
+        # self.frame2.configure(relief='groove')
+        # self.frame2.configure(borderwidth="2")
+        # self.frame2.configure(relief="groove")
+        # self.frame2.configure(background="#d9d9d9")
+
+        # self.Label1_7 = tk.Label(self.frame2)
+        # # self.Label1_7.place(relx=0.596, rely=0.519, height=51, width=234)
+        # self.Label1_7.configure(background="#d9d9d9")
+        # self.Label1_7.configure(disabledforeground="#a3a3a3")
+        # self.Label1_7.configure(font="-family {Segoe UI} -size 14 -weight bold")
+        # self.Label1_7.configure(foreground="#F80000")
+        # self.Label1_7.configure(text='''LOSS''')
+        # self.Label1_7.grid(row=0, column=0, padx=10, sticky='s')
+
+        # self.Label1_5 = tk.Label(self.frame2)
+        # # self.Label1_5.place(relx=0.596, rely=0.519, height=51, width=234)
+        # self.Label1_5.configure(background="#d9d9d9")
+        # self.Label1_5.configure(foreground="#13C41F")
+        # self.Label1_5.configure(disabledforeground="#a3a3a3")
+        # self.Label1_5.configure(font="-family {Segoe UI} -size 12 -weight bold")
+        # self.Label1_5.configure(text='''Profit''')
+        # self.Label1_5.grid(row=1, column=0, padx=10)
+
         self.Button2_2 = tk.Button(top, command=self.openMasterChart)
         self.Button2_2.place(relx=0.792, rely=0.021, height=54, width=215)
         self.Button2_2.configure(activebackground="#ececec")
@@ -170,14 +202,21 @@ class Toplevel1:
         self.figure4 = plt.Figure(figsize=(6,6), dpi=50)
 
         self.plot()
+
+    global prof_loss
         
     def plot(self):
         self.figure1.clear() 
         self.figure2.clear()
         self.figure3.clear()
         self.figure4.clear()
+        self.Label1_5['text']=""
+        self.Label1_6['text']=""
+
 
         breed, gender, maleKidCount, femaleKidCount, maleDeadCount, femaleDeadCount, income, expense= graph.getData()
+
+        prof_loss = income-expense
 
         # Current Holding
         data1 = {'breed':breed,'gender':gender}
@@ -230,6 +269,27 @@ class Toplevel1:
         df4.plot(kind='bar', legend=True, ax=ax4, color='r', fontsize=12)
         ax4.set_title('Income Vs Expense') 
         ax4.set_xlabel('Income                      Expense',fontsize = 14)
+
+        self.Label1_5.configure(background="#d9d9d9")
+        self.Label1_5.configure(foreground="#13C41F")
+        self.Label1_5.configure(disabledforeground="#a3a3a3")
+        self.Label1_5.configure(font="-family {Segoe UI} -size 15 -weight bold")
+        # self.Label1_5.configure(text='''Profit''')
+        self.Label1_5.grid(row=0, column=0, padx=10)
+        self.Label1_5['text']=prof_loss
+
+        self.Label1_6.configure(background="#d9d9d9")
+        self.Label1_6.configure(disabledforeground="#a3a3a3")
+        self.Label1_6.configure(font="-family {Segoe UI} -size 12 ")
+        self.Label1_6.configure(foreground="#F80000")
+        # self.Label1_6.configure(text='''PROFIT''')
+        self.Label1_6.grid(row=1, column=0, padx=10, sticky='s')
+
+        if prof_loss>0:
+            self.Label1_6['text']='PROFIT'
+
+        else: 
+            self.Label1_6['text']='LOSS'
 
     def refresh(self):
         self.plot()

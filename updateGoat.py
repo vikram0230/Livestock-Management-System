@@ -72,7 +72,7 @@ class Toplevel1:
         top.minsize(120, 1)
         top.maxsize(1370, 749)
         top.resizable(1, 1)
-        top.title("New Toplevel")
+        top.title("Update Goat")
         top.configure(background="#d9d9d9")
         top.configure(highlightbackground="#d9d9d9")
         top.configure(highlightcolor="black")
@@ -347,7 +347,7 @@ class Toplevel1:
         self.Button1.configure(highlightbackground="#d9d9d9")
         self.Button1.configure(highlightcolor="black")
         self.Button1.configure(pady="0")
-        self.Button1.configure(text='''VACCINATED''')
+        self.Button1.configure(text='''REMOVE VACCINATION''')
 
         self.Button2 = tk.Button(self.Frame1, command=lambda:self.vaccinated(2))
         self.Button2.place(relx=0.55, rely=0.65, height=24, width=82)
@@ -359,7 +359,7 @@ class Toplevel1:
         self.Button2.configure(highlightbackground="#d9d9d9")
         self.Button2.configure(highlightcolor="black")
         self.Button2.configure(pady="0")
-        self.Button2.configure(text='''VACCINATED''')
+        self.Button2.configure(text='''REMOVE VACCINATION''')
 
         self.Button3 = tk.Button(self.Frame1, command=lambda:self.vaccinated(3))
         self.Button3.place(relx=0.55, rely=0.70, height=24, width=82)
@@ -371,7 +371,7 @@ class Toplevel1:
         self.Button3.configure(highlightbackground="#d9d9d9")
         self.Button3.configure(highlightcolor="black")
         self.Button3.configure(pady="0")
-        self.Button3.configure(text='''VACCINATED''')
+        self.Button3.configure(text='''REMOVE VACCINATION''')
 
         self.Button4 = tk.Button(self.Frame1, command=lambda:self.vaccinated(4))
         self.Button4.place(relx=0.55, rely=0.75, height=24, width=82)
@@ -383,7 +383,7 @@ class Toplevel1:
         self.Button4.configure(highlightbackground="#d9d9d9")
         self.Button4.configure(highlightcolor="black")
         self.Button4.configure(pady="0")
-        self.Button4.configure(text='''VACCINATED''')
+        self.Button4.configure(text='''REMOVE VACCINATION''')
 
         self.Button5 = tk.Button(self.Frame1, command=lambda:self.vaccinated(5))
         self.Button5.place(relx=0.55, rely=0.80, height=24, width=82)
@@ -407,7 +407,7 @@ class Toplevel1:
         self.Button6.configure(highlightbackground="#d9d9d9")
         self.Button6.configure(highlightcolor="black")
         self.Button6.configure(pady="0")
-        self.Button6.configure(text='''VACCINATED''')
+        self.Button6.configure(text='''REMOVE VACCINATION''')
 
         self.Button7 = tk.Button(self.Frame1, command=destroy_Toplevel1)
         self.Button7.place(relx=0.232, rely=0.93, height=24, width=56)
@@ -636,7 +636,7 @@ class Toplevel1:
 
     def vaccinated(self, vacc_no):
         self.db.updateVaccination(vacc_no, self.goatData[0])
-        messagebox.showinfo("Update","Vacinnated successfully")
+        messagebox.showinfo("Update","Vaccination Removed successfully")
         w.deiconify()
 
     def hideSoldFrame(self, widget1, widget2):

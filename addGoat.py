@@ -103,7 +103,7 @@ class Toplevel1:
         self.Gid_10.configure(highlightcolor="black")
         self.Gid_10.configure(text='''ADD GOAT''')
 
-        self.isBornOrBought = IntVar()
+        self.isBornOrBought = IntVar(None, 0)
 
         self.Rbtnborn = tk.Radiobutton(top, command=self.disableVaccination)
         self.Rbtnborn.place(relx=0.427, rely=0.095,
@@ -365,6 +365,36 @@ class Toplevel1:
         background='darkblue', foreground='white', borderwidth=2)
         self.cal6.place(x=1000,y=380, height=35, width=98)
 
+        self.v7 = tk.Label(top)
+        self.v7.place(x=800,y=425, height=35, width=98)
+        self.v7.configure(activebackground="#f9f9f9")
+        self.v7.configure(activeforeground="black")
+        self.v7.configure(background="#d9d9d9")
+        self.v7.configure(disabledforeground="#a3a3a3")
+        self.v7.configure(foreground="#000000")
+        self.v7.configure(highlightbackground="#d9d9d9")
+        self.v7.configure(highlightcolor="black")
+        self.v7.configure(text='''V7''')
+
+        self.cal8 = DateEntry(top, width=12, year=2019, month=6, day=22, 
+        background='darkblue', foreground='white', borderwidth=2)
+        self.cal8.place(x=1000,y=425, height=35, width=98)
+
+        self.v8 = tk.Label(top)
+        self.v8.place(x=800,y=470, height=35, width=98)
+        self.v8.configure(activebackground="#f9f9f9")
+        self.v8.configure(activeforeground="black")
+        self.v8.configure(background="#d9d9d9")
+        self.v8.configure(disabledforeground="#a3a3a3")
+        self.v8.configure(foreground="#000000")
+        self.v8.configure(highlightbackground="#d9d9d9")
+        self.v8.configure(highlightcolor="black")
+        self.v8.configure(text='''V8''')
+
+        self.cal8 = DateEntry(top, width=12, year=2019, month=6, day=22, 
+        background='darkblue', foreground='white', borderwidth=2)
+        self.cal8.place(x=1000,y=470, height=35, width=98)
+
         self.Submit = tk.Button(top, command=self.acceptValues)
         self.Submit.place(relx=0.550, rely=0.842, height=30, width=59)
         self.Submit.configure(activebackground="#ececec")
@@ -396,6 +426,8 @@ class Toplevel1:
         self.cal4.set_date(datetime.date(datetime.now()))
         self.cal5.set_date(datetime.date(datetime.now()))
         self.cal6.set_date(datetime.date(datetime.now()))
+        self.cal7.set_date(datetime.date(datetime.now()))
+        self.cal8.set_date(datetime.date(datetime.now()))
 
     def acceptValues(self):
         goat_id = int(self.TEntry1.get())
@@ -412,6 +444,8 @@ class Toplevel1:
         v4Date = self.cal4.get_date()
         v5Date = self.cal5.get_date()
         v6Date = self.cal6.get_date()
+        v7Date = self.cal7.get_date()
+        v8Date = self.cal8.get_date()
 
         # born = 0
 
@@ -420,18 +454,18 @@ class Toplevel1:
                                 'weight': g_weight, 'gender': g_gender, 'pregnant': 'No'}, mother_id=g_motherId)
         elif g_gender == 'f' and g_isBornOrBought == 1:
             self.db.insertGoatRecord({'goat_id': goat_id, 'breed': g_breed, 'date_of_birth': g_dob,
-                                'weight': g_weight, 'gender': g_gender, 'pregnant': 'No', 'v1': str(v1Date), 'v2': str(v2Date), 'v3': str(v3Date), 'v4': str(v4Date), 'v5': str(v5Date), 'v6': str(v6Date)}, mother_id='null')
+                                'weight': g_weight, 'gender': g_gender, 'pregnant': 'No', 'v1': str(v1Date), 'v2': str(v2Date), 'v3': str(v3Date), 'v4': str(v4Date), 'v5': str(v5Date), 'v6': str(v6Date), 'v7': str(v6Date), 'v8': str(v6Date)}, mother_id='null')
         elif g_gender == 'm' and g_isBornOrBought == 0:
             self.db.insertGoatRecord({'goat_id': goat_id, 'breed': g_breed, 'date_of_birth': g_dob,
                                 'weight': g_weight, 'gender': g_gender, 'pregnant': 'No'}, mother_id=g_motherId)
         elif g_gender == 'm' and g_isBornOrBought == 1:
             self.db.insertGoatRecord({'goat_id': goat_id, 'breed': g_breed, 'date_of_birth': g_dob,
-                                'weight': g_weight, 'gender': g_gender, 'pregnant': 'No', 'v1': str(v1Date), 'v2': str(v2Date), 'v3': str(v3Date), 'v4': str(v4Date), 'v5': str(v5Date), 'v6': str(v6Date)}, mother_id='null')
+                                'weight': g_weight, 'gender': g_gender, 'pregnant': 'No', 'v1': str(v1Date), 'v2': str(v2Date), 'v3': str(v3Date), 'v4': str(v4Date), 'v5': str(v5Date), 'v6': str(v6Date), 'v7': str(v6Date), 'v8': str(v6Date)}, mother_id='null')
 
         self.showSuccess()
         
         print({'goat_id': goat_id, 'breed': g_breed, 'date_of_birth': g_dob,
-                                'weight': g_weight, 'gender': g_gender, 'pregnant': 'No', 'v1': str(v1Date), 'v2': str(v2Date), 'v3': str(v3Date), 'v4': str(v4Date), 'v5': str(v5Date), 'v6': str(v6Date)})
+                                'weight': g_weight, 'gender': g_gender, 'pregnant': 'No', 'v1': str(v1Date), 'v2': str(v2Date), 'v3': str(v3Date), 'v4': str(v4Date), 'v5': str(v5Date), 'v6': str(v6Date), 'v7': str(v6Date), 'v8': str(v6Date)})
 
         addGoat_support.destroy_window()
 
@@ -443,6 +477,8 @@ class Toplevel1:
         self.cal4.config(state=DISABLED)
         self.cal5.config(state=DISABLED)
         self.cal6.config(state=DISABLED)
+        self.cal7.config(state=DISABLED)
+        self.cal8.config(state=DISABLED)
 
     def disableMotherId(self):
         self.TEntry1_25.config(state=DISABLED) 
@@ -452,6 +488,8 @@ class Toplevel1:
         self.cal4.config(state=NORMAL)
         self.cal5.config(state=NORMAL)
         self.cal6.config(state=NORMAL)
+        self.cal7.config(state=NORMAL)
+        self.cal8.config(state=NORMAL)
 
     def errorMsg(self):
         tk.messagebox.showerror("Input Error","Incorrect Data!")
