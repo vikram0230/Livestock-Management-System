@@ -376,9 +376,9 @@ class Toplevel1:
         self.v7.configure(highlightcolor="black")
         self.v7.configure(text='''V7''')
 
-        self.cal8 = DateEntry(top, width=12, year=2019, month=6, day=22, 
+        self.cal7 = DateEntry(top, width=12, year=2019, month=6, day=22, 
         background='darkblue', foreground='white', borderwidth=2)
-        self.cal8.place(x=1000,y=425, height=35, width=98)
+        self.cal7.place(x=1000,y=425, height=35, width=98)
 
         self.v8 = tk.Label(top)
         self.v8.place(x=800,y=470, height=35, width=98)

@@ -96,7 +96,7 @@ class Toplevel1:
         self.Label1.configure(text='''Label''')
 
         self.frame1 = tk.Frame(top)
-        self.frame1.place(relx=0.01, rely=0.01, relheight=0.1, relwidth=0.1)
+        self.frame1.place(relx=0.01, rely=0.01, relheight=0.095, relwidth=0.075)
         self.frame1.configure(relief='groove')
         self.frame1.configure(borderwidth="2")
         self.frame1.configure(relief="groove")
@@ -255,12 +255,10 @@ class Toplevel1:
         ax3.legend()
         ax3.set_title('Death Rate')
 
-
         # Income Vs Expense
         data4 = {'Finance':['Income','Expense'],
               'Amount':[income,expense]}
         df4 = DataFrame(data4,columns=['Finance','Amount'])
-
 
         ax4 = self.figure4.add_subplot(111)
         bar4 = FigureCanvasTkAgg(self.figure4, root)
@@ -279,17 +277,20 @@ class Toplevel1:
         self.Label1_5['text']=prof_loss
 
         self.Label1_6.configure(background="#d9d9d9")
-        self.Label1_6.configure(disabledforeground="#a3a3a3")
         self.Label1_6.configure(font="-family {Segoe UI} -size 12 ")
         self.Label1_6.configure(foreground="#F80000")
         # self.Label1_6.configure(text='''PROFIT''')
         self.Label1_6.grid(row=1, column=0, padx=10, sticky='s')
 
         if prof_loss>0:
-            self.Label1_6['text']='PROFIT'
+            self.Label1_6['text']='    PROFIT'
+            self.Label1_5.configure(foreground="#13C41F")
+            self.Label1_6.configure(foreground="#13C41F")
 
         else: 
-            self.Label1_6['text']='LOSS'
+            self.Label1_6['text']='     LOSS'
+            self.Label1_5.configure(foreground="#F80000")
+            self.Label1_6.configure(foreground="#F80000")
 
     def refresh(self):
         self.plot()

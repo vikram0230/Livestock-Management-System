@@ -52,7 +52,7 @@ def getData():
 		maleDeadCount = 0
 		femaleDeadCount = 0
 
-	income = db.getTotalIncome()
+	income = db.getTotalIncome()+db.getTotalSoldGoatsRate()
 	expense = db.getTotalLabourCost()+db.getTotalFeedCost()+db.getTotalMiscExpenditure()
 
 	db = None
