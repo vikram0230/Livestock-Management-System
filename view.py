@@ -361,7 +361,7 @@ class Toplevel1:
         self.Frame2.configure(highlightcolor="black")
 
         self.Label2_00 = tk.Label(self.Frame2)
-        self.Label2_00.place(relx=0.629, rely=0.135, height=52, width=141)
+        self.Label2_00.place(relx=0.1, rely=0.066, height=52, width=141)
         self.Label2_00.configure(activebackground="#f9f9f9")
         self.Label2_00.configure(activeforeground="black")
         self.Label2_00.configure(background="#d9d9d9")
@@ -373,8 +373,7 @@ class Toplevel1:
         self.Label2_00.configure(text='''Pregnant''')
 
         self.Canvas2 = tk.Text(self.Frame2)
-        self.Canvas2.place(relx=0.469, rely=0.066, relheight=0.055
-                , relwidth=0.346)
+        self.Canvas2.place(relx=0.469, rely=0.066, relheight=0.055, relwidth=0.346)
         self.Canvas2.configure(background="white")
         self.Canvas2.configure(font="TkTextFont")
         self.Canvas2.configure(foreground="black")
@@ -385,9 +384,57 @@ class Toplevel1:
         self.Canvas2.configure(selectforeground="black")
         self.Canvas2.configure(wrap="word")
 
-        self.Text2 = tk.Text(self.Frame2)
-        self.Text2.place(relx=0.469, rely=0.325, relheight=0.041, relwidth=0.349)
+        self.Label2_7 = tk.Label(self.Frame2)
+        self.Label2_7.place(relx=0.25, rely=0.15, height=51, width=174)
+        self.Label2_7.configure(activebackground="#f9f9f9")
+        self.Label2_7.configure(activeforeground="black")
+        self.Label2_7.configure(background="#d9d9d9")
+        self.Label2_7.configure(disabledforeground="#a3a3a3")
+        self.Label2_7.configure(font=font13)
+        self.Label2_7.configure(foreground="#000000")
+        self.Label2_7.configure(highlightbackground="#d9d9d9")
+        self.Label2_7.configure(highlightcolor="black")
+        self.Label2_7.configure(text='''Kid Details''')
 
+        self.Label2_8 = tk.Label(self.Frame2)
+        self.Label2_8.place(relx=0.1, rely=0.24, height=50, width=140)
+        self.Label2_8.configure(activebackground="#f9f9f9")
+        self.Label2_8.configure(activeforeground="black")
+        self.Label2_8.configure(background="#d9d9d9")
+        self.Label2_8.configure(disabledforeground="#a3a3a3")
+        self.Label2_8.configure(font=font10)
+        self.Label2_8.configure(foreground="#000000")
+        self.Label2_8.configure(highlightbackground="#d9d9d9")
+        self.Label2_8.configure(highlightcolor="black")
+        self.Label2_8.configure(text='''No of Male Kids''')
+
+        self.Text2_9 = tk.Text(self.Frame2)
+        self.Text2_9.place(relx=0.469, rely=0.25, relheight=0.055, relwidth=0.346)
+        self.Text2_9.configure(background="white")
+        self.Text2_9.configure(font="TkTextFont")
+        self.Text2_9.configure(foreground="black")
+        self.Text2_9.configure(highlightbackground="#d9d9d9")
+        self.Text2_9.configure(highlightcolor="black")
+        self.Text2_9.configure(insertbackground="black")
+        self.Text2_9.configure(selectbackground="#c4c4c4")
+        self.Text2_9.configure(selectforeground="black")
+        self.Text2_9.configure(wrap="word")
+        self.Text2_9.insert(END, self.goatData[8])
+
+        self.Label2_6 = tk.Label(self.Frame2)
+        self.Label2_6.place(relx=0.1, rely=0.34, height=50, width=141)
+        self.Label2_6.configure(activebackground="#f9f9f9")
+        self.Label2_6.configure(activeforeground="black")
+        self.Label2_6.configure(background="#d9d9d9")
+        self.Label2_6.configure(disabledforeground="#a3a3a3")
+        self.Label2_6.configure(font=font10)
+        self.Label2_6.configure(foreground="#000000")
+        self.Label2_6.configure(highlightbackground="#d9d9d9")
+        self.Label2_6.configure(highlightcolor="black")
+        self.Label2_6.configure(text='''No of Female Kids''')
+
+        self.Text2 = tk.Text(self.Frame2)
+        self.Text2.place(relx=0.469, rely=0.35, relheight=0.055, relwidth=0.346)
         self.Text2.configure(background="white")
         self.Text2.configure(font="TkTextFont")
         self.Text2.configure(foreground="black")
@@ -397,12 +444,10 @@ class Toplevel1:
         self.Text2.configure(selectbackground="#c4c4c4")
         self.Text2.configure(selectforeground="black")
         self.Text2.configure(wrap="word")
-
         self.Text2.insert(END, self.goatData[9])
 
         self.Frame3 = tk.Frame(self.Frame2)
-        self.Frame3.place(relx=0.234, rely=0.525, relheight=0.442
-                , relwidth=0.612)
+        self.Frame3.place(relx=0.234, rely=0.525, relheight=0.442, relwidth=0.612)
         self.Frame3.configure(relief='groove')
         self.Frame3.configure(borderwidth="2")
         self.Frame3.configure(relief="groove")
@@ -522,7 +567,7 @@ class Toplevel1:
         self.Label2_5.configure(activeforeground="black")
         self.Label2_5.configure(background="#d9d9d9")
         self.Label2_5.configure(disabledforeground="#a3a3a3")
-        self.Label2_5.configure(font=("font10",10))
+        self.Label2_5.configure(font=font13)
         self.Label2_5.configure(foreground="#000000")
         self.Label2_5.configure(highlightbackground="#d9d9d9")
         self.Label2_5.configure(highlightcolor="black")
@@ -555,57 +600,6 @@ class Toplevel1:
 
         self.Text1_5.insert(END, self.goatData[5])
 
-        self.Label2_7 = tk.Label(top)
-        self.Label2_7.place(relx=0.711, rely=0.284, height=51, width=174)
-        self.Label2_7.configure(activebackground="#f9f9f9")
-        self.Label2_7.configure(activeforeground="black")
-        self.Label2_7.configure(background="#d9d9d9")
-        self.Label2_7.configure(disabledforeground="#a3a3a3")
-        self.Label2_7.configure(font=font13)
-        self.Label2_7.configure(foreground="#000000")
-        self.Label2_7.configure(highlightbackground="#d9d9d9")
-        self.Label2_7.configure(highlightcolor="black")
-        self.Label2_7.configure(text='''Kid Details''')
-
-        self.Label2_6 = tk.Label(top)
-        self.Label2_6.place(relx=0.629, rely=0.358, height=53, width=141)
-        self.Label2_6.configure(activebackground="#f9f9f9")
-        self.Label2_6.configure(activeforeground="black")
-        self.Label2_6.configure(background="#d9d9d9")
-        self.Label2_6.configure(disabledforeground="#a3a3a3")
-        self.Label2_6.configure(font=font10)
-        self.Label2_6.configure(foreground="#000000")
-        self.Label2_6.configure(highlightbackground="#d9d9d9")
-        self.Label2_6.configure(highlightcolor="black")
-        self.Label2_6.configure(text='''No of Female Kids''')
-
-        self.Label2_8 = tk.Label(top)
-        self.Label2_8.place(relx=0.629, rely=0.448, height=53, width=140)
-        self.Label2_8.configure(activebackground="#f9f9f9")
-        self.Label2_8.configure(activeforeground="black")
-        self.Label2_8.configure(background="#d9d9d9")
-        self.Label2_8.configure(disabledforeground="#a3a3a3")
-        self.Label2_8.configure(font=font10)
-        self.Label2_8.configure(foreground="#000000")
-        self.Label2_8.configure(highlightbackground="#d9d9d9")
-        self.Label2_8.configure(highlightcolor="black")
-        self.Label2_8.configure(text='''No of Male Kids''')
-
-        self.Text2_9 = tk.Text(top)
-        self.Text2_9.place(relx=0.782, rely=0.464, relheight=0.036
-                , relwidth=0.136)
-        self.Text2_9.configure(background="white")
-        self.Text2_9.configure(font="TkTextFont")
-        self.Text2_9.configure(foreground="black")
-        self.Text2_9.configure(highlightbackground="#d9d9d9")
-        self.Text2_9.configure(highlightcolor="black")
-        self.Text2_9.configure(insertbackground="black")
-        self.Text2_9.configure(selectbackground="#c4c4c4")
-        self.Text2_9.configure(selectforeground="black")
-        self.Text2_9.configure(wrap="word")
-
-        self.Text2_9.insert(END, self.goatData[8])
-
         self.Text1.insert(END, self.goatData[0])
 
         self.isAlive = self.goatData[10]
@@ -615,7 +609,7 @@ class Toplevel1:
         self.Canvas2.insert(END, self.isPregnant)
 
         if goatData[3] == 'm':
-            pass
+            self.Frame2.place_forget()
 
         self.populateTree()
 
