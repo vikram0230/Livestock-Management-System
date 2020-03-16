@@ -239,7 +239,7 @@ class Toplevel1:
         bar4 = FigureCanvasTkAgg(self.figure4, root)
         bar4.get_tk_widget().place(x=980,y=430)
         df4 = df4[['Finance','Amount']]
-        df4.plot(kind='bar', legend=True, ax=ax4, color='r', fontsize=12)
+        df4.plot(kind='bar', legend=True, ax=ax4, color='lightskyblue', fontsize=12)
         ax4.set_title('Income Vs Expense') 
         ax4.set_xlabel('Income                      Expense',fontsize = 14)
 
