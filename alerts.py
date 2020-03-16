@@ -202,6 +202,7 @@ class Toplevel1:
         self.Label1_5.configure(highlightcolor="black")
         self.Label1_5.configure(text='''BREED READY''')
 
+        #vacc 1
         self.tree1 = ttk.Treeview(self.Frame1)
         self.tree1["columns"] = ("#0", "#1", "#2")
         self.tree1.column("#0", width=0)
@@ -211,6 +212,7 @@ class Toplevel1:
         self.tree1.heading("#2", text="NEXT VACCINATION")
         self.tree1.place(relx=0.035, rely=0.15, relheight=0.376, relwidth=0.157)
 
+        #vacc 2
         self.tree2 = ttk.Treeview(top)
         self.tree2["columns"] = ("#0", "#1", "#2")
         self.tree2.column("#0", width=0)
@@ -220,6 +222,7 @@ class Toplevel1:
         self.tree2.heading("#2", text="NEXT VACCINATION")
         self.tree2.place(relx=0.23, rely=0.14, relheight=0.383, relwidth=0.157)
 
+        #vacc 3
         self.tree3 = ttk.Treeview(top)
         self.tree3["columns"] = ("#0", "#1", "#2")
         self.tree3.column("#0", width=0)
@@ -229,6 +232,7 @@ class Toplevel1:
         self.tree3.heading("#2", text="NEXT VACCINATION")
         self.tree3.place(relx=0.42, rely=0.14, relheight=0.383, relwidth=0.157)
 
+        #vacc 4
         self.tree31 = ttk.Treeview(top)
         self.tree31["columns"] = ("#0", "#1", "#2")
         self.tree31.column("#0", width=0)
@@ -238,6 +242,7 @@ class Toplevel1:
         self.tree31.heading("#2", text="NEXT VACCINATION")
         self.tree31.place(relx=0.61, rely=0.14, relheight=0.384, relwidth=0.157)
 
+        #vacc 5
         self.tree4 = ttk.Treeview(top)
         self.tree4["columns"] = ("#0", "#1", "#2")
         self.tree4.column("#0", width=0)
@@ -247,6 +252,7 @@ class Toplevel1:
         self.tree4.heading("#2", text="NEXT VACCINATION")
         self.tree4.place(relx=0.035, rely=0.573, relheight=0.384, relwidth=0.158)
 
+        #vacc 6
         self.tree5 = ttk.Treeview(top)
         self.tree5["columns"] = ("#0", "#1", "#2")
         self.tree5.column("#0", width=0)
@@ -256,6 +262,7 @@ class Toplevel1:
         self.tree5.heading("#2", text="NEXT VACCINATION")
         self.tree5.place(relx=0.23, rely=0.573, relheight=0.384, relwidth=0.157)
 
+        #vacc 7
         self.tree6 = ttk.Treeview(top)
         self.tree6["columns"] = ("#0", "#1", "#2")
         self.tree6.column("#0", width=0)
@@ -265,6 +272,7 @@ class Toplevel1:
         self.tree6.heading("#2", text="NEXT VACCINATION")
         self.tree6.place(relx=0.42, rely=0.573, relheight=0.384, relwidth=0.157)
 
+        #vacc 8
         self.tree61 = ttk.Treeview(top)
         self.tree61["columns"] = ("#0", "#1", "#2")
         self.tree61.column("#0", width=0)
