@@ -106,31 +106,6 @@ class Toplevel1:
 
         self.Label1_6 = tk.Label(self.frame1)
 
-        # self.frame2 = tk.Frame(top)
-        # self.frame2.place(relx=0.01, rely=0.01, relheight=0.1, relwidth=0.1)
-        # self.frame2.configure(relief='groove')
-        # self.frame2.configure(borderwidth="2")
-        # self.frame2.configure(relief="groove")
-        # self.frame2.configure(background="#d9d9d9")
-
-        # self.Label1_7 = tk.Label(self.frame2)
-        # # self.Label1_7.place(relx=0.596, rely=0.519, height=51, width=234)
-        # self.Label1_7.configure(background="#d9d9d9")
-        # self.Label1_7.configure(disabledforeground="#a3a3a3")
-        # self.Label1_7.configure(font="-family {Segoe UI} -size 14 -weight bold")
-        # self.Label1_7.configure(foreground="#F80000")
-        # self.Label1_7.configure(text='''LOSS''')
-        # self.Label1_7.grid(row=0, column=0, padx=10, sticky='s')
-
-        # self.Label1_5 = tk.Label(self.frame2)
-        # # self.Label1_5.place(relx=0.596, rely=0.519, height=51, width=234)
-        # self.Label1_5.configure(background="#d9d9d9")
-        # self.Label1_5.configure(foreground="#13C41F")
-        # self.Label1_5.configure(disabledforeground="#a3a3a3")
-        # self.Label1_5.configure(font="-family {Segoe UI} -size 12 -weight bold")
-        # self.Label1_5.configure(text='''Profit''')
-        # self.Label1_5.grid(row=1, column=0, padx=10)
-
         self.Button2_2 = tk.Button(top, command=self.openMasterChart)
         self.Button2_2.place(relx=0.792, rely=0.021, height=54, width=215)
         self.Button2_2.configure(activebackground="#ececec")

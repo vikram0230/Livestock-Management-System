@@ -649,17 +649,10 @@ class DataBase:
         c.execute('SELECT count(goat_no),gender FROM MasterTable where mortality=\'Dead\' GROUP BY gender')
         return c.fetchall()
 
-    # def getTotalSoldGoatsRate(self):
-    #     c.execute('SELECT SUM(sold_rate) FROM MasterTable WHERE sold_rate != \'None\'')
-    #     res = c.fetchall()[0][0] if len(c.fetchall()) > 0 else 0
-    #     print(res)
-    #     return res
-
     def getTotalSoldGoatsRate(self):
         c.execute('SELECT SUM(sold_rate) FROM MasterTable WHERE sold_rate != \'None\'')
         res = c.fetchall()
         res = res[0][0] if len(res) > 0 else 0
-        print(res)
         return res
 
     # Excel
