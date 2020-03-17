@@ -236,8 +236,7 @@ class DataBase:
         return (c.fetchall())
 
     def getColumnNames(self):
-        c.execute('SELECT * FROM MasterTable')
-        names = [description[0] for description in c.description]
+        names = ['goat_no', 'breed', 'date_of_birth', 'gender', 'pregnant', 'weight', 'date_of_delivery', 'no_of_kids', 'no_of_male_kids', 'no_of_female_kids', 'mortality', 'Anthrax', 'Haemorrhagic Septicemia', 'Enterotoxaemia', 'Black Quarter', 'P.P.R.', 'Foot and Mouth Disease', 'Goat Pox', 'C.C.P.P', 'sold_date', 'sold_rate']
         return names
 
     def insertGoatRecord(self, values, mother_id):
