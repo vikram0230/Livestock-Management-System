@@ -22,6 +22,7 @@ except ImportError:
 import alerts_support
 from backend import DataBase
 from tkinter import END
+import vaccination
 
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
@@ -72,7 +73,7 @@ class Toplevel1:
         top.minsize(800, 500)
         top.maxsize(1500, 750)
         top.resizable(0, 0)
-        top.title("New Toplevel")
+        top.title("Alerts")
         top.configure(background="#d9d9d9")
 
         self.Frame1 = tk.Frame(top)
@@ -312,6 +313,7 @@ class Toplevel1:
         self.Button1.configure(highlightcolor="black")
         self.Button1.configure(pady="0")
         self.Button1.configure(text='''Done''')
+        self.Button1.configure(command=lambda: self.setVaccinated(1))
 
         self.Button2 = tk.Button(top)
         self.Button2.place(relx=0.355, rely=0.09, height=30, width=40)
@@ -325,6 +327,7 @@ class Toplevel1:
         self.Button2.configure(highlightcolor="black")
         self.Button2.configure(pady="0")
         self.Button2.configure(text='''Done''')
+        self.Button2.configure(command=lambda: self.setVaccinated(2))
 
         self.Button3 = tk.Button(top)
         self.Button3.place(relx=0.545, rely=0.09, height=30, width=40)
@@ -338,6 +341,7 @@ class Toplevel1:
         self.Button3.configure(highlightcolor="black")
         self.Button3.configure(pady="0")
         self.Button3.configure(text='''Done''')
+        self.Button3.configure(command=lambda: self.setVaccinated(3))
 
         self.Button4 = tk.Button(top)
         self.Button4.place(relx=0.737, rely=0.09, height=30, width=40)
@@ -351,6 +355,7 @@ class Toplevel1:
         self.Button4.configure(highlightcolor="black")
         self.Button4.configure(pady="0")
         self.Button4.configure(text='''Done''')
+        self.Button4.configure(command=lambda: self.setVaccinated(4))
 
         self.Button5 = tk.Button(top)
         self.Button5.place(relx=0.16, rely=0.53, height=30, width=40)
@@ -364,6 +369,7 @@ class Toplevel1:
         self.Button5.configure(highlightcolor="black")
         self.Button5.configure(pady="0")
         self.Button5.configure(text='''Done''')
+        self.Button5.configure(command=lambda: self.setVaccinated(5))
 
         self.Button6 = tk.Button(top)
         self.Button6.place(relx=0.355, rely=0.53, height=30, width=40)
@@ -377,6 +383,7 @@ class Toplevel1:
         self.Button6.configure(highlightcolor="black")
         self.Button6.configure(pady="0")
         self.Button6.configure(text='''Done''')
+        self.Button6.configure(command=lambda: self.setVaccinated(6))
 
         self.Button7 = tk.Button(top)
         self.Button7.place(relx=0.545, rely=0.53, height=30, width=40)
@@ -390,6 +397,7 @@ class Toplevel1:
         self.Button7.configure(highlightcolor="black")
         self.Button7.configure(pady="0")
         self.Button7.configure(text='''Done''')
+        self.Button7.configure(command=lambda: self.setVaccinated(7))
 
         self.Button8 = tk.Button(top)
         self.Button8.place(relx=0.737, rely=0.53, height=30, width=40)
@@ -403,12 +411,27 @@ class Toplevel1:
         self.Button8.configure(highlightcolor="black")
         self.Button8.configure(pady="0")
         self.Button8.configure(text='''Done''')
+        self.Button8.configure(command=lambda: self.setVaccinated(8))
+
+        self.vButton = tk.Button(top)
+        self.vButton.place(relx=0.837, rely=0.001, height=50, width=170)
+        self.vButton.configure(activebackground="#ececec")
+        self.vButton.configure(activeforeground="#000000")
+        self.vButton.configure(background="#d9d9d9")
+        self.vButton.configure(disabledforeground="#a3a3a3")
+        self.vButton.configure(font=font9)
+        self.vButton.configure(foreground="#000000")
+        self.vButton.configure(highlightbackground="#d9d9d9")
+        self.vButton.configure(highlightcolor="black")
+        self.vButton.configure(pady="0")
+        self.vButton.configure(text='''Vaccination Reference''')
+        self.vButton.configure(command = lambda: vaccination.create_Toplevel1(root))
 
         self.db = DataBase()
 
         self.v1data = self.db.getGoatsToBeVaccinated(1)
         self.v2data = self.db.getGoatsToBeVaccinated(2)
-        # self.v3data = self.db.getGoatsToBeVaccinated(3)
+        self.v3data = self.db.getGoatsToBeVaccinated(3)
         self.v4data = self.db.getGoatsToBeVaccinated(4)
         self.v5data = self.db.getGoatsToBeVaccinated(5)
         self.v6data = self.db.getGoatsToBeVaccinated(6)
@@ -420,54 +443,38 @@ class Toplevel1:
         self.breedReadyGoats = self.db.getBreedReadyGoats()
 
         if self.v1data != None:
-            for i in range(len(self.v1data['children'])):
-                self.tree1.insert("", END, text="", values=self.v1data['children'][i])
-            for i in range(len(self.v1data['adults'])):
-                self.tree1.insert("", END, text="", values=self.v1data['adults'][i])
+            for i in range(len(self.v1data)):
+                self.tree1.insert("", END, text="", values=self.v1data[i])
         if self.v2data != None:
-            for i in range(len(self.v2data['children'])):
-                self.tree2.insert("", END, text="", values=self.v2data['children'][i])
-            for i in range(len(self.v2data['adults'])):
-                self.tree2.insert("", END, text="", values=self.v2data['adults'][i])
-        # if self.v3data != None:
-        #     for i in range(len(self.v3data['children'])):
-        #         self.tree3.insert("", END, text="", values=self.v3data['children'][i])
-        #     for i in range(len(self.v3data['adults'])):
-        #         self.tree3.insert("", END, text="", values=self.v3data['adults'][i])
+            for i in range(len(self.v2data)):
+                self.tree2.insert("", END, text="", values=self.v2data[i])
+        if self.v3data != None:
+            for i in range(len(self.v3data)):
+                self.tree3.insert("", END, text="", values=self.v3data[i])
         if self.v4data != None:
-            for i in range(len(self.v4data['children'])):
-                self.tree4.insert("", END, text="", values=self.v4data['children'][i])
-            for i in range(len(self.v4data['adults'])):
-                self.tree4.insert("", END, text="", values=self.v4data['adults'][i])
+            for i in range(len(self.v4data)):
+                self.tree31.insert("", END, text="", values=self.v4data[i])
         if self.v5data != None:
-            for i in range(len(self.v5data['children'])):
-                self.tree5.insert("", END, text="", values=self.v5data['children'][i])
-            for i in range(len(self.v5data['adults'])):
-                self.tree5.insert("", END, text="", values=self.v5data['adults'][i])
+            for i in range(len(self.v5data)):
+                self.tree4.insert("", END, text="", values=self.v5data[i])
         if self.v6data != None:
-            for i in range(len(self.v6data['children'])):
-                self.tree6.insert("", END, text="", values=self.v6data['children'][i])
-            for i in range(len(self.v6data['adults'])):
-                self.tree6.insert("", END, text="", values=self.v6data['adults'][i])
-
-        # TODO insert into 7 and 8 vaccine trees
-
+            for i in range(len(self.v6data)):
+                self.tree5.insert("", END, text="", values=self.v6data[i])
         if self.v7data != None:
-            for i in range(len(self.v7data['children'])):
-                self.tree6.insert("", END, text="", values=self.v7data['children'][i])
-            for i in range(len(self.v7data['adults'])):
-                self.tree6.insert("", END, text="", values=self.v7data['adults'][i])
+            for i in range(len(self.v7data)):
+                self.tree6.insert("", END, text="", values=self.v7data[i])
         if self.v8data != None:
-            for i in range(len(self.v8data['children'])):
-                self.tree6.insert("", END, text="", values=self.v8data['children'][i])
-            for i in range(len(self.v8data['adults'])):
-                self.tree6.insert("", END, text="", values=self.v8data['adults'][i])
+            for i in range(len(self.v8data)):
+                self.tree61.insert("", END, text="", values=self.v8data[i])
         if self.deliveryDates != None:
             for i in range(len(self.deliveryDates)):
                 self.tree7.insert("", END, text="", values=self.deliveryDates[i])
         if self.breedReadyGoats != None:
             for i in range(len(self.breedReadyGoats)):
                 self.tree8.insert("", END, text="", values=self.breedReadyGoats[i])
+
+    def setVaccinated(self, vacc_no):
+        self.db.vaccinateGoats(vacc_no)
 
 # The following code is added to facilitate the Scrolled widgets you specified.
 class AutoScroll(object):

@@ -24,6 +24,7 @@ except ImportError:
     from tkinter.constants import *
     from tkinter.font import Font, nametofont
     from tkinter.ttk import Treeview, Style
+    from tkinter import ttk
 
 # Python 3 compatibility
 try:
@@ -556,17 +557,17 @@ def displayMasterChart():
 
     root = Tk()
 
-    root.geometry("1500x850+0+0")
+    root.geometry("1500x760+0+0")
     root.minsize(800, 500)
-    root.maxsize(1500, 750)
-    root.resizable(0, 0)
-    root.title("Home")
+    root.maxsize(1800, 850)
+    root.resizable(1, 1)
+    root.title("Master Chart")
     root.configure(background="#f3f3f3")
     root.configure(highlightbackground="#d9d9d9")
     root.configure(highlightcolor="#090000")
 
     Frame1 = Frame(root)
-    Frame1.place(relx=0.0, rely=0.03, relheight=1.0, relwidth=1.02)
+    Frame1.place(relx=0.0, rely=0.03, relheight=0.97, relwidth=1.0)
     Frame1.configure(relief='groove')
     Frame1.configure(borderwidth="2")
     Frame1.configure(relief="groove")
@@ -591,8 +592,11 @@ def displayMasterChart():
         menu.add_separator()
         menu.add_command(label="View", command=lambda: view.create_Toplevel1(root, row_data))
 
-    mc = Multicolumn_Listbox(Frame1, db.getColumnNames(), stripped_rows = ("white","#f2f2f2"), command=on_select, cell_anchor="center", height=700, adjust_heading_to_content=True)
-    mc.interior.place(relx=0.015,rely=0,relheight= 1,relwidth=0.95)
+    mc = Multicolumn_Listbox(Frame1, db.getColumnNames(), stripped_rows = ("white","#f2f2f2"), command=on_select, cell_anchor="center", height=600, adjust_heading_to_content=True)
+    mc.interior.place(relx=0.0,rely=0,relheight= 0.97,relwidth=0.985)
+    vsb = ttk.Scrollbar(Frame1, orient = "horizontal", command = mc.interior.xview)
+    vsb.pack(side = 'bottom', fill= 'x')
+    mc.interior.configure(xscrollcommand = vsb.set)
 
     def populateTree():
         for record in db.getGoatRecords():
@@ -606,7 +610,7 @@ def displayMasterChart():
 
 
     Button3 = tk.Button(root)
-    Button3.place(relx=0.830, rely=0.00, height=25, width=80)
+    Button3.place(relx=0.870, rely=0.00, height=25, width=80)
     Button3.configure(activebackground="#ececec")
     Button3.configure(activeforeground="#000000")
     Button3.configure(background="#d9d9d9")

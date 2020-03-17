@@ -62,9 +62,9 @@ class Toplevel1:
 
         top.geometry("1300x760+20+20")
         top.minsize(148, 1)
-        top.maxsize(1924, 1055)
+        top.maxsize(1800, 850)
         top.resizable(1, 1)
-        top.title("New Toplevel")
+        top.title("Finance")
         top.configure(background="#d9d9d9")
         
         self.db = DataBase()

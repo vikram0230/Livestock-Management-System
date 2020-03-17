@@ -70,7 +70,7 @@ class Toplevel1:
 
         top.geometry("450x690+484+55")
         top.minsize(120, 1)
-        top.maxsize(1370, 749)
+        top.maxsize(1800, 850)
         top.resizable(1, 1)
         top.title("Update Goat")
         top.configure(background="#d9d9d9")

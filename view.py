@@ -74,9 +74,9 @@ class Toplevel1:
 
         top.geometry("1300x760+20+20")
         top.minsize(800, 500)
-        top.maxsize(1500, 750)
-        top.resizable(0, 0)
-        top.title("New Toplevel")
+        top.maxsize(1800, 850)
+        top.resizable(1, 1)
+        top.title("View")
         top.configure(background="#d9d9d9")
         top.configure(highlightbackground="#d9d9d9")
         top.configure(highlightcolor="black")
@@ -575,7 +575,7 @@ class Toplevel1:
         self.Label2_5.configure(foreground="#000000")
         self.Label2_5.configure(highlightbackground="#d9d9d9")
         self.Label2_5.configure(highlightcolor="black")
-        self.Label2_5.configure(text='''Value''')
+        self.Label2_5.configure(text='''Weight''')
 
         self.Text1_5 = tk.Text(top)
         self.Text1_5.place(relx=0.152, rely=0.250, relheight=0.036
@@ -620,7 +620,6 @@ class Toplevel1:
         data1 = self.db.getWeightRecords(goatData[0])
         dataColumns1 = self.db.getWeightColumnNames(goatData[0])
         df = pd.DataFrame(data1,columns=dataColumns1)
-        print(df.date_checked)
 
         figure = plt.Figure(figsize=(6,7), dpi=50)
         ax1 = figure.add_subplot(111)
@@ -631,8 +630,6 @@ class Toplevel1:
         ax1.set_xlabel('Date_checked')
         ax1.set_xticks(np.arange(df.shape[0]) + 0.5, minor=False)
         ax1.set_xticklabels(df.date_checked, rotation = 45, fontsize = 10)
-        # plt.xticks(rotation=90)
-        # plt.xticks(df.index,df['Date_checked'])
 
     def populateTree(self):
         self.rowData = self.db.getKidsTableData(self.goatData[0])       

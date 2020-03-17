@@ -1,11 +1,11 @@
-# TODO updateGoat not vaccinated buttons
-# TODO viewGoat vaccination extra
-
 import os
 import sqlite3
 from datetime import datetime, date
 import pandas as pd
 from dateutil.relativedelta import relativedelta
+from math import ceil
+import math
+from pandas.core.frame import DataFrame
 
 # Create DB file if not present already in the same directory
 if not (os.path.isfile('data.db')):
@@ -214,9 +214,22 @@ if datetime.date(datetime.now()) == date(date.today().year, 4, 1):
 class DataBase:
     def __init__(self):
         pass
+
     def getGoatRecords(self):
         c.execute('SELECT * FROM MasterTable')
-        return c.fetchall()
+        res = c.fetchall()
+        for i in range(len(res)):
+            res[i] = list(res[i])
+            if res[i][2] == res[i][11]:
+                res[i][11] = None
+                res[i][12] = None
+                res[i][13] = None
+                res[i][14] = None
+                res[i][15] = None
+                res[i][16] = None
+                res[i][17] = None
+                res[i][18] = None
+        return res
 
     def getNumberOfRecords(self):
         c.execute('SELECT COUNT(*) FROM MasterTable')
@@ -228,46 +241,46 @@ class DataBase:
         return names
 
     def insertGoatRecord(self, values, mother_id):
-        if mother_id == 'null':
-            c.execute('INSERT INTO MasterTable (goat_no, breed, date_of_birth, gender, pregnant, weight, v1, v2, v3, v4, v5, v6, v7, v8) VALUES(:goat_id, :breed, :date_of_birth, :gender, :pregnant, :weight, :v1, :v2, :v3, :v4, :v5, :v6, v7, v8)', values)
-        else:
-            c.execute('INSERT INTO MasterTable (goat_no, breed, date_of_birth, gender, pregnant, weight) VALUES(:goat_id, :breed, :date_of_birth, :gender, :pregnant, :weight)', values)
-            # update mother id to have the kid id
-            c.execute('INSERT INTO KidsTable VALUES(:mother_id, :kid_id, :gender)', {'mother_id': mother_id, 'kid_id': values['goat_id'], 'gender': values['gender']})
-        
-            # Updating number of kids
-            c.execute('SELECT no_of_kids, no_of_male_kids, no_of_female_kids FROM MasterTable WHERE goat_no=:goat_id', {'goat_id': mother_id})
-            res = c.fetchall()
-            res = list(res[0]) if len(res) != 0 else [0, 0, 0]
-            res[0] += 1
-        
-            c.execute('UPDATE MasterTable SET no_of_kids=:no_of_kids WHERE goat_no=:mother_id', {'no_of_kids': res[0], 'mother_id': mother_id})
+        try:
+            if mother_id == 'null':
+                c.execute('INSERT INTO MasterTable (goat_no, breed, date_of_birth, gender, pregnant, weight, v1, v2, v3, v4, v5, v6, v7, v8) VALUES(:goat_id, :breed, :date_of_birth, :gender, :pregnant, :weight, :v1, :v2, :v3, :v4, :v5, :v6, :v7, :v8)', values)
+            else:
+                c.execute('INSERT INTO MasterTable (goat_no, breed, date_of_birth, gender, pregnant, weight, v1, v2, v3, v4, v5, v6, v7, v8) VALUES(:goat_id, :breed, :date_of_birth, :gender, :pregnant, :weight, :curdate, :curdate, :curdate, :curdate, :curdate, :curdate, :curdate, :curdate)', values)
+                # update mother id to have the kid id
+                c.execute('INSERT INTO KidsTable VALUES(:mother_id, :kid_id, :gender)', {'mother_id': mother_id, 'kid_id': values['goat_id'], 'gender': values['gender']})
             
-            if values['gender'] == 'm':
-                res[1] += 1
-                c.execute('UPDATE MasterTable SET no_of_male_kids=:no_of_male_kids WHERE goat_no=:mother_id', {'no_of_male_kids': res[1], 'mother_id': mother_id})
-            elif values['gender'] == 'f':
-                res[2] += 1
-                c.execute('UPDATE MasterTable SET no_of_female_kids=:no_of_female_kids WHERE goat_no=:mother_id', {'no_of_female_kids': res[2], 'mother_id': mother_id})
-        conn.commit()
+                # Updating number of kids
+                c.execute('SELECT no_of_kids, no_of_male_kids, no_of_female_kids FROM MasterTable WHERE goat_no=:goat_id', {'goat_id': mother_id})
+                res = c.fetchall()
+                res = list(res[0]) if len(res) != 0 else [0, 0, 0]
+                res[0] += 1
+            
+                c.execute('UPDATE MasterTable SET no_of_kids=:no_of_kids WHERE goat_no=:mother_id', {'no_of_kids': res[0], 'mother_id': mother_id})
+                
+                if values['gender'] == 'm':
+                    res[1] += 1
+                    c.execute('UPDATE MasterTable SET no_of_male_kids=:no_of_male_kids WHERE goat_no=:mother_id', {'no_of_male_kids': res[1], 'mother_id': mother_id})
+                elif values['gender'] == 'f':
+                    res[2] += 1
+                    c.execute('UPDATE MasterTable SET no_of_female_kids=:no_of_female_kids WHERE goat_no=:mother_id', {'no_of_female_kids': res[2], 'mother_id': mother_id})
 
-        # Updating mortality
-        c.execute('UPDATE MasterTable SET mortality=\'Alive\' WHERE goat_no=:goat_id', {'goat_id': values['goat_id']})
-        conn.commit()
+            # Updating mortality
+            c.execute('UPDATE MasterTable SET mortality=\'Alive\' WHERE goat_no=:goat_id', {'goat_id': values['goat_id']})
 
-        # Creating a weight table for the goat passed
-        createStmt_WeightTable = 'weight INT, date_checked DATE'
-        c.execute('CREATE TABLE WeightTable' +
-                  str(values['goat_id']) + '(' + createStmt_WeightTable + ')')
+            # Creating a weight table for the goat passed
+            createStmt_WeightTable = 'weight INT, date_checked DATE'
+            c.execute('CREATE TABLE WeightTable' +
+                    str(values['goat_id']) + '(' + createStmt_WeightTable + ')')
 
-        conn.commit()
 
-        c.execute('INSERT INTO WeightTable' + str(values['goat_id']) + ' VALUES(:weight, :date_checked)', {
-                'weight': values['weight'], 'date_checked': datetime.date(datetime.now())})
+            c.execute('INSERT INTO WeightTable' + str(values['goat_id']) + ' VALUES(:weight, :date_checked)', {
+                    'weight': values['weight'], 'date_checked': datetime.date(datetime.now())})
 
-        conn.commit()
-
-        self.updateLiveStockNetworth(values)
+            self.updateLiveStockNetworth(values)
+        except:
+            return Exception
+        else:
+            conn.commit()
 
         print('Inserted successfully')
 
@@ -349,23 +362,22 @@ class DataBase:
         print('Updated successfully')
 
     def updateVaccination(self, vacc_no, goat_id):
-        time = {'goat_id': goat_id}
         if vacc_no == 1:
-            c.execute('UPDATE MasterTable SET v1=\'None\' WHERE goat_no=:goat_id', time)
+            c.execute('UPDATE MasterTable SET v1=? WHERE goat_no=?', (None, goat_id))
         if vacc_no == 2:
-            c.execute('UPDATE MasterTable SET v2=\'None\' WHERE goat_no=:goat_id', time)
+            c.execute('UPDATE MasterTable SET v2=? WHERE goat_no=?', (None, goat_id))
         if vacc_no == 3:
-            c.execute('UPDATE MasterTable SET v3=\'None\' WHERE goat_no=:goat_id', time)
+            c.execute('UPDATE MasterTable SET v3=? WHERE goat_no=?', (None, goat_id))
         if vacc_no == 4:
-            c.execute('UPDATE MasterTable SET v4=\'None\' WHERE goat_no=:goat_id', time)
+            c.execute('UPDATE MasterTable SET v4=? WHERE goat_no=?', (None, goat_id))
         if vacc_no == 5:
-            c.execute('UPDATE MasterTable SET v5=\'None\' WHERE goat_no=:goat_id', time)
+            c.execute('UPDATE MasterTable SET v5=? WHERE goat_no=?', (None, goat_id))
         if vacc_no == 6:
-            c.execute('UPDATE MasterTable SET v6=\'None\' WHERE goat_no=:goat_id', time)
+            c.execute('UPDATE MasterTable SET v6=? WHERE goat_no=?', (None, goat_id))
         if vacc_no == 7:
-            c.execute('UPDATE MasterTable SET v7=\'None\' WHERE goat_no=:goat_id', time)
+            c.execute('UPDATE MasterTable SET v7=? WHERE goat_no=?', (None, goat_id))
         if vacc_no == 8:
-            c.execute('UPDATE MasterTable SET v8=\'None\' WHERE goat_no=:goat_id', time)
+            c.execute('UPDATE MasterTable SET v8=? WHERE goat_no=?', (None, goat_id))
         conn.commit()
 
     # Alerts table
@@ -378,6 +390,9 @@ class DataBase:
             v2 - Haemorrhagic Septicemia 
                     - Kid: 6 Months
                     - Adult: 1 Year
+            v3 - Enterotoxaemia
+                    - Kid: 4 Months
+                    - Adult: 1 Year and 1 Year + 15 days
             v4 - Black Quarter 
                     - Kid: 6 Months
                     - Adult: 1 Year
@@ -386,7 +401,7 @@ class DataBase:
                     - Adult: 3 Year
             v6 - Foot & mouth disease
                     - Kid: 4 Months
-                    - Adult: Twice in a Year
+                    - Adult: 6 Months
             v7 - Goat Pox
                     - Kid: 3 Months
                     - Adult: 1 Year
@@ -395,93 +410,164 @@ class DataBase:
                     - Adult: 1 Year
         '''
 
-        dates = {'children': list(), 'adults': list()}
+        dates = list()
 
         if vacc_no == 1 or vacc_no == 2 or vacc_no == 4:
             # First checking for children
-            c.execute('SELECT goat_no, v' + str(vacc_no) + ' FROM MasterTable WHERE (julianday(:curdate) - julianday(date_of_birth) <= 365) AND v' + str(vacc_no) + ' = \'None\'', {'curdate': datetime.date(datetime.now())})
+            c.execute('SELECT goat_no, v' + str(vacc_no) + ', date_of_birth FROM MasterTable WHERE (julianday(:curdate) - julianday(date_of_birth) <= 365)', {'curdate': datetime.date(datetime.now())})
             res = c.fetchall()
             for rec in res:
-                newd = datetime.strptime(rec[1], '%Y-%m-%d').date() + relativedelta(months=+6) if rec[1] != None else datetime.date(datetime.now()) + relativedelta(months=+6)
+                if rec[1] != None:
+                    newd = datetime.strptime(rec[1], '%Y-%m-%d').date() + relativedelta(months=+6)
+                else:
+                    newd = datetime.strptime(rec[2], '%Y-%m-%d').date() + relativedelta(months=+6)
                 g_no = rec[0]
                 # if datetime.today().month == newd.month and datetime.today().year == newd.year:
-                dates['children'].append([g_no, str(newd)])
-            dates['children'].sort(key=lambda x: x[1], reverse=True)
+                dates.append([g_no, str(newd)])
 
             # checking for adults
-            c.execute('SELECT goat_no, v' + str(vacc_no) + ' FROM MasterTable WHERE (julianday(:curdate) - julianday(date_of_birth) > 365)', {'curdate': datetime.date(datetime.now())})
+            c.execute('SELECT goat_no, v' + str(vacc_no) + ', date_of_birth FROM MasterTable WHERE (julianday(:curdate) - julianday(date_of_birth) > 365)', {'curdate': datetime.date(datetime.now())})
             res = c.fetchall()
             for rec in res:
-                newd = datetime.strptime(rec[1], '%Y-%m-%d').date() + relativedelta(years=1) if rec[1] != None else datetime.date(datetime.now()) + relativedelta(years=1)
+                if rec[1] != None:
+                    newd = datetime.strptime(rec[1], '%Y-%m-%d').date() + relativedelta(years=1) 
+                else:
+                    dob = datetime.strptime(rec[2], '%Y-%m-%d').date()
+                    toBeAdded = date.today() - dob
+                    toBeAdded = toBeAdded.days
+                    toBeAdded = ceil(toBeAdded / 365)
+                    newd = dob + relativedelta(years=toBeAdded)
                 g_no = rec[0]
                 # if datetime.today().month == newd.month and datetime.today().year == newd.year:
-                dates['adults'].append([g_no, str(newd)])
-            dates['adults'].sort(key=lambda x: x[1], reverse=True)
+                dates.append([g_no, str(newd)])
+            dates.sort(key=lambda x: x[1])
+
+        elif vacc_no == 3:
+            # First checking for children
+            c.execute('SELECT goat_no, v' + str(vacc_no) + ', date_of_birth FROM MasterTable WHERE (julianday(:curdate) - julianday(date_of_birth) <= 365)', {'curdate': datetime.date(datetime.now())})
+            res = c.fetchall()
+            for rec in res:
+                if rec[1] != None:
+                    newd = datetime.strptime(rec[1], '%Y-%m-%d').date() + relativedelta(months=+4)
+                else:
+                    newd = datetime.strptime(rec[2], '%Y-%m-%d').date() + relativedelta(months=+4)
+                g_no = rec[0]
+                # if datetime.today().month == newd.month and datetime.today().year == newd.year:
+                dates.append([g_no, str(newd)])
+
+            # checking for adults
+            c.execute('SELECT goat_no, v' + str(vacc_no) + ', date_of_birth FROM MasterTable WHERE (julianday(:curdate) - julianday(date_of_birth) > 365)', {'curdate': datetime.date(datetime.now())})
+            res = c.fetchall()
+            for rec in res:
+                if rec[1] != None:
+                    newd1 = datetime.strptime(rec[1], '%Y-%m-%d').date() + relativedelta(years=1)
+                else:
+                    dob = datetime.strptime(rec[2], '%Y-%m-%d').date()
+                    toBeAdded = date.today() - dob
+                    toBeAdded = toBeAdded.days
+                    toBeAdded = ceil(toBeAdded / 365)
+                    newd1 = dob + relativedelta(years=toBeAdded)
+                newd2 = newd1 + relativedelta(days=15)
+                g_no = rec[0]
+                # if datetime.today().month == newd.month and datetime.today().year == newd.year:
+                dates.append([g_no, str(newd1)])
+                dates.append([g_no, str(newd2)])
+            dates.sort(key=lambda x: x[1])
 
         elif vacc_no == 5:
             # First checking for children
-            c.execute('SELECT goat_no, v' + str(vacc_no) + ' FROM MasterTable WHERE (julianday(:curdate) - julianday(date_of_birth) <= 365) AND v' + str(vacc_no) + ' = \'None\'', {'curdate': datetime.date(datetime.now())})
+            c.execute('SELECT goat_no, v' + str(vacc_no) + ', date_of_birth FROM MasterTable WHERE (julianday(:curdate) - julianday(date_of_birth) <= 365)', {'curdate': datetime.date(datetime.now())})
             res = c.fetchall()
             for rec in res:
-                newd = datetime.strptime(rec[1], '%Y-%m-%d').date() + relativedelta(months=+3) if rec[1] != None else datetime.date(datetime.now()) + relativedelta(months=+3)
+                if rec[1] != None:
+                    newd = datetime.strptime(rec[1], '%Y-%m-%d').date() + relativedelta(months=+3)
+                else:
+                    newd = datetime.strptime(rec[2], '%Y-%m-%d').date() + relativedelta(months=+3)
                 g_no = rec[0]
                 # if datetime.today().month == newd.month and datetime.today().year == newd.year:
-                dates['children'].append([g_no, str(newd)])
-            dates['children'].sort(key=lambda x: x[1], reverse=True)
+                dates.append([g_no, str(newd)])
 
             # checking for adults
-            c.execute('SELECT goat_no, v' + str(vacc_no) + ' FROM MasterTable WHERE (julianday(:curdate) - julianday(date_of_birth) > 365)', {'curdate': datetime.date(datetime.now())})
+            c.execute('SELECT goat_no, v' + str(vacc_no) + ', date_of_birth FROM MasterTable WHERE (julianday(:curdate) - julianday(date_of_birth) > 365)', {'curdate': datetime.date(datetime.now())})
             res = c.fetchall()
             for rec in res:
-                newd = datetime.strptime(rec[1], '%Y-%m-%d').date() + relativedelta(years=3) if rec[1] != None else datetime.date(datetime.now()) + relativedelta(years=3)
+                if rec[1] != None:
+                    newd = datetime.strptime(rec[1], '%Y-%m-%d').date() + relativedelta(years=3) 
+                else:
+                    dob = datetime.strptime(rec[2], '%Y-%m-%d').date()
+                    toBeAdded = date.today() - dob
+                    toBeAdded = toBeAdded.days
+                    toBeAdded = ceil(toBeAdded / 365)
+                    newd = dob + relativedelta(years=toBeAdded)
                 g_no = rec[0]
                 # if datetime.today().month == newd.month and datetime.today().year == newd.year:
-                dates['adults'].append([g_no, str(newd)])
-            dates['adults'].sort(key=lambda x: x[1], reverse=True)
+                dates.append([g_no, str(newd)])
+            dates.sort(key=lambda x: x[1])
 
         elif vacc_no == 6:
             # First checking for children
-            c.execute('SELECT goat_no, v' + str(vacc_no) + ' FROM MasterTable WHERE (julianday(:curdate) - julianday(date_of_birth) <= 365) AND v' + str(vacc_no) + ' = \'None\'', {'curdate': datetime.date(datetime.now())})
+            c.execute('SELECT goat_no, v' + str(vacc_no) + ', date_of_birth FROM MasterTable WHERE (julianday(:curdate) - julianday(date_of_birth) <= 365)', {'curdate': datetime.date(datetime.now())})
             res = c.fetchall()
             for rec in res:
-                newd = datetime.strptime(rec[1], '%Y-%m-%d').date() + relativedelta(months=+4) if rec[1] != None else datetime.date(datetime.now()) + relativedelta(months=+4)
+                if rec[1] != None:
+                    newd = datetime.strptime(rec[1], '%Y-%m-%d').date() + relativedelta(months=+4)
+                else:
+                    newd = datetime.strptime(rec[2], '%Y-%m-%d').date() + relativedelta(months=+4)
                 g_no = rec[0]
                 # if datetime.today().month == newd.month and datetime.today().year == newd.year:
-                dates['children'].append([g_no, str(newd)])
-            dates['children'].sort(key=lambda x: x[1], reverse=True)
+                dates.append([g_no, str(newd)])
 
             # checking for adults
-            c.execute('SELECT goat_no, v' + str(vacc_no) + ' FROM MasterTable WHERE (julianday(:curdate) - julianday(date_of_birth) > 365)', {'curdate': datetime.date(datetime.now())})
+            c.execute('SELECT goat_no, v' + str(vacc_no) + ', date_of_birth FROM MasterTable WHERE (julianday(:curdate) - julianday(date_of_birth) > 365)', {'curdate': datetime.date(datetime.now())})
             res = c.fetchall()
             for rec in res:
-                newd = datetime.strptime(rec[1], '%Y-%m-%d').date() + relativedelta(months=+6) if rec[1] != None else datetime.date(datetime.now()) + relativedelta(months=+6)
+                if rec[1] != None:
+                    newd = datetime.strptime(rec[1], '%Y-%m-%d').date() + relativedelta(years=3) 
+                else:
+                    dob = datetime.strptime(rec[2], '%Y-%m-%d').date()
+                    toBeAdded = date.today() - dob
+                    toBeAdded = toBeAdded.days
+                    toBeAdded = toBeAdded / 365
+                    if 0.5 > math.modf(toBeAdded)[0]:
+                        toBeAdded = math.modf(toBeAdded)[1] + 0.5
+                        toBeAdded *= 12
+                    else:
+                        toBeAdded = math.modf(toBeAdded)[1] + 1
+                        toBeAdded *= 12
+                    newd = dob + relativedelta(months=toBeAdded)
                 g_no = rec[0]
-                if datetime.date(datetime.now()) == newd:
-                    dates['adults'].append([g_no, str(newd)])
-            dates['adults'].sort(key=lambda x: x[1], reverse=True)
+                # if datetime.today().month == newd.month and datetime.today().year == newd.year:
+                dates.append([g_no, str(newd)])
+            dates.sort(key=lambda x: x[1])
 
         elif vacc_no == 7 or vacc_no == 8:
-            print(7)
-            print(8)
-            # First checking for children
-            c.execute('SELECT goat_no, v' + str(vacc_no) + ' FROM MasterTable WHERE (julianday(:curdate) - julianday(date_of_birth) <= 365) AND v' + str(vacc_no) + ' = \'None\'', {'curdate': datetime.date(datetime.now())})
+            c.execute('SELECT goat_no, v' + str(vacc_no) + ', date_of_birth FROM MasterTable WHERE (julianday(:curdate) - julianday(date_of_birth) <= 365)', {'curdate': datetime.date(datetime.now())})
             res = c.fetchall()
             for rec in res:
-                newd = datetime.strptime(rec[1], '%Y-%m-%d').date() + relativedelta(months=+3) if rec[1] != None else datetime.date(datetime.now()) + relativedelta(months=+3)
+                if rec[1] != None:
+                    newd = datetime.strptime(rec[1], '%Y-%m-%d').date() + relativedelta(months=+3)
+                else:
+                    newd = datetime.strptime(rec[2], '%Y-%m-%d').date() + relativedelta(months=+3)
                 g_no = rec[0]
-                if datetime.date(datetime.now()) == newd:
-                    dates['children'].append([g_no, str(newd)])
-            dates['children'].sort(key=lambda x: x[1], reverse=True)
+                # if datetime.today().month == newd.month and datetime.today().year == newd.year:
+                dates.append([g_no, str(newd)])
 
             # checking for adults
-            c.execute('SELECT goat_no, v' + str(vacc_no) + ' FROM MasterTable WHERE (julianday(:curdate) - julianday(date_of_birth) > 365)', {'curdate': datetime.date(datetime.now())})
+            c.execute('SELECT goat_no, v' + str(vacc_no) + ', date_of_birth FROM MasterTable WHERE (julianday(:curdate) - julianday(date_of_birth) > 365)', {'curdate': datetime.date(datetime.now())})
             res = c.fetchall()
             for rec in res:
-                newd = datetime.strptime(rec[1], '%Y-%m-%d').date() + relativedelta(years=1) if rec[1] != None else datetime.date(datetime.now()) + relativedelta(years=1)
+                if rec[1] != None:
+                    newd = datetime.strptime(rec[1], '%Y-%m-%d').date() + relativedelta(years=1) 
+                else:
+                    dob = datetime.strptime(rec[2], '%Y-%m-%d').date()
+                    toBeAdded = date.today() - dob
+                    toBeAdded = toBeAdded.days
+                    toBeAdded = ceil(toBeAdded / 365)
+                    newd = dob + relativedelta(years=toBeAdded)
                 g_no = rec[0]
-                if datetime.date(datetime.now()) == newd:
-                    dates['adults'].append([g_no, str(newd)])
-            dates['adults'].sort(key=lambda x: x[1], reverse=True)
+                # if datetime.today().month == newd.month and datetime.today().year == newd.year:
+                dates.append([g_no, str(newd)])
+            dates.sort(key=lambda x: x[1])
 
         return dates
 
@@ -504,6 +590,14 @@ class DataBase:
         c.execute('SELECT goat_no, breed FROM MasterTable WHERE (julianday(:curdate) - julianday(date_of_birth) > 365)AND ((julianday(:curdate) - julianday(date_of_delivery) > 90)OR(pregnant=\'No\')) AND(gender=\'f\')' , {'curdate': datetime.date(datetime.now())})
         res = c.fetchall()
         return res
+
+    def vaccinateGoats(self, vacc_no):
+        dates = self.getGoatsToBeVaccinated(vacc_no)
+        if dates != None:
+            for i in range(len(dates)):
+                if datetime.strptime(dates[i][1], '%Y-%m-%d').date() <= datetime.date(datetime.now()):
+                    c.execute('UPDATE MasterTable SET v' + str(vacc_no) + '=:curdate WHERE goat_no=:goat_id', {'curdate': str(datetime.date(datetime.now())), 'goat_id': dates[i][0]})
+            conn.commit()
 
     # For View goat
     def getKidsTableData(self, goat_no):
@@ -652,7 +746,7 @@ class DataBase:
     def getTotalSoldGoatsRate(self):
         c.execute('SELECT SUM(sold_rate) FROM MasterTable WHERE sold_rate != \'None\'')
         res = c.fetchall()
-        res = res[0][0] if len(res) > 0 else 0
+        res = res[0][0] if res[0][0] != None else 0
         return res
 
     # Excel

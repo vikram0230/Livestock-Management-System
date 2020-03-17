@@ -77,8 +77,8 @@ class Toplevel1:
 
         top.geometry("1300x760+20+20")
         top.minsize(800, 500)
-        top.maxsize(1500, 750)
-        top.resizable(0, 0)
+        top.maxsize(1800, 850)
+        top.resizable(1, 1)
         top.title("Home")
         top.configure(background="#f3f3f3")
         top.configure(highlightbackground="#d9d9d9")
