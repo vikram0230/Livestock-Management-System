@@ -27,6 +27,7 @@ import graph_backend as graph
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import pandas as pd
+import numpy as np
 
 
 def vp_start_gui():
@@ -342,15 +343,6 @@ class Toplevel1:
         self.Canvas1.configure(selectforeground="black")
         self.Canvas1.configure(wrap="word")
 
-        self.Frame1 = tk.Frame(top)
-        self.Frame1.place(relx=0.325, rely=0.512, relheight=0.454, relwidth=0.248)
-        self.Frame1.configure(relief='groove')
-        self.Frame1.configure(borderwidth="2")
-        self.Frame1.configure(relief="groove")
-        self.Frame1.configure(background="#d9d9d9")
-        self.Frame1.configure(highlightbackground="#d9d9d9")
-        self.Frame1.configure(highlightcolor="black")
-
         self.Frame2 = tk.Frame(top)
         self.Frame2.place(relx=0.599, rely=0.075, relheight=0.92, relwidth=0.39)
         self.Frame2.configure(relief='groove')
@@ -615,19 +607,31 @@ class Toplevel1:
 
         counter = 0
 
+        self.Frame1 = tk.Frame(top)
+        self.Frame1.place(relx=0.325, rely=0.512, relheight=0.45, relwidth=0.237)
+        self.Frame1.configure(relief='groove')
+        self.Frame1.configure(borderwidth="2")
+        self.Frame1.configure(relief="groove")
+        self.Frame1.configure(background="#d9d9d9")
+        self.Frame1.configure(highlightbackground="#d9d9d9")
+        self.Frame1.configure(highlightcolor="black")
+
         # Weight graph
         data1 = self.db.getWeightRecords(goatData[0])
         dataColumns1 = self.db.getWeightColumnNames(goatData[0])
         df = pd.DataFrame(data1,columns=dataColumns1)
-        # print(type(df1.date_checked[0]))
+        print(df.date_checked)
 
-        figure = plt.Figure(figsize=(6,6), dpi=60)
+        figure = plt.Figure(figsize=(6,7), dpi=50)
         ax1 = figure.add_subplot(111)
         line2 = FigureCanvasTkAgg(figure, self.Frame1)
         line2.get_tk_widget().pack(side=tk.LEFT, fill=tk.NONE,padx=2)
         df.plot(kind='line',legend= True, ax=ax1, color='r',marker='o', fontsize=15)
         ax1.set_title('Chart of Growth') 
         ax1.set_xlabel('Date_checked')
+        ax1.set_xticks(np.arange(df.shape[0]) + 0.5, minor=False)
+        ax1.set_xticklabels(df.date_checked, rotation = 45, fontsize = 10)
+        # plt.xticks(rotation=90)
         # plt.xticks(df.index,df['Date_checked'])
 
     def populateTree(self):
