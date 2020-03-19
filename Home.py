@@ -80,7 +80,7 @@ class Toplevel1:
         top.maxsize(1800, 850)
         top.resizable(1, 1)
         top.title("Home")
-        top.configure(background="#f3f3f3")
+        top.configure(background="#78909C")
         top.configure(highlightbackground="#d9d9d9")
         top.configure(highlightcolor="#090000")
 
@@ -257,7 +257,7 @@ class Toplevel1:
         # self.Label1_6.configure(text='''PROFIT''')
         self.Label1_6.grid(row=1, column=0, padx=10, sticky='s')
 
-        if prof_loss>0:
+        if prof_loss>=0:
             self.Label1_6['text']='    PROFIT'
             self.Label1_5.configure(foreground="#13C41F")
             self.Label1_6.configure(foreground="#13C41F")

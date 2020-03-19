@@ -87,7 +87,7 @@ class Toplevel1:
         top.maxsize(1500, 750)
         top.resizable(0, 0)
         top.title("New Toplevel")
-        top.configure(background="#40e0d0")
+        top.configure(background="#78909C")
         top.configure(highlightbackground="#d9d9d9")
         top.configure(highlightcolor="black")
 

@@ -9,8 +9,12 @@ def getData():
 	dataColumns = db.getColumnNames()
 	df = pd.DataFrame(data,columns=dataColumns)
 
-	breed = df['breed']
-	gender = df['gender']
+	if not df['breed'].empty:
+		breed = df['breed']
+		gender = df['gender']
+	else:
+		breed = ['']
+		gender = ['']
 
 	kidCount = db.getKidCount()
 	maleKidCount = 0

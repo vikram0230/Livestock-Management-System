@@ -143,7 +143,7 @@ def genExcel():
     incomedf = pd.DataFrame(incomedata,columns= incomedataColumns)
     incomedf.name = 'Income'
 
-    writer = pd.ExcelWriter('./Excel' + str(datetime.date(datetime.now())) + '.xlsx',engine='xlsxwriter')
+    writer = pd.ExcelWriter('./' + str(datetime.date(datetime.now())) + '.xlsx',engine='xlsxwriter')
 
     goatdf.to_excel(writer, sheet_name=goatdf.name)
     kiddf.to_excel(writer, sheet_name=kiddf.name)

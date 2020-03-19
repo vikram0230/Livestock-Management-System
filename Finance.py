@@ -65,7 +65,7 @@ class Toplevel1:
         top.maxsize(1800, 850)
         top.resizable(1, 1)
         top.title("Finance")
-        top.configure(background="#d9d9d9")
+        top.configure(background="#78909C")
         
         self.db = DataBase()
 
@@ -1341,7 +1341,7 @@ class Toplevel1:
         incomedf = pd.DataFrame(incomedata,columns= incomedataColumns)
         incomedf.name = 'Income'
 
-        writer = pd.ExcelWriter('f:\\livestock ' + str(datetime.date(datetime.now())) + '.xlsx',engine='xlsxwriter')
+        writer = pd.ExcelWriter('./' + str(datetime.date(datetime.now())) + '.xlsx',engine='xlsxwriter')
 
         goatdf.to_excel(writer, sheet_name=goatdf.name)
         kiddf.to_excel(writer, sheet_name=kiddf.name)
@@ -1352,5 +1352,8 @@ class Toplevel1:
         incomedf.to_excel(writer, sheet_name=incomedf.name)
 
         writer.save()
+        self.showSuccess()
 
+    def showSuccess(self):
+        tk.messagebox.showinfo("Success","Successfully Generated")
 

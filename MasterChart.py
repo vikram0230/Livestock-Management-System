@@ -571,7 +571,7 @@ def displayMasterChart():
     Frame1.configure(relief='groove')
     Frame1.configure(borderwidth="2")
     Frame1.configure(relief="groove")
-    Frame1.configure(background="#d9d9d9")
+    Frame1.configure(background="#78909C")
     Frame1.configure(highlightbackground="#d9d9d9")
     Frame1.configure(highlightcolor="black")
 

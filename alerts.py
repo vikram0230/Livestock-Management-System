@@ -74,7 +74,7 @@ class Toplevel1:
         top.maxsize(1500, 750)
         top.resizable(0, 0)
         top.title("Alerts")
-        top.configure(background="#d9d9d9")
+        top.configure(background="#78909C")
 
         self.Frame1 = tk.Frame(top)
         self.Frame1.place(relx=0.0, rely=-0.017, relheight=1.028, relwidth=1.008)
