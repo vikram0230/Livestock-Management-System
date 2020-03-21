@@ -71,7 +71,6 @@ class Toplevel1:
         top.resizable(1, 1)
         top.title("Vaccination reference")
         top.configure(background="#d9d9d9")
-        top.configure(cursor="watch")
 
         self.Label1 = tk.Label(top)
         self.Label1.place(relx=0.0, rely=0.0, height=726, width=522)

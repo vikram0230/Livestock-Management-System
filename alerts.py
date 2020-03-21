@@ -53,7 +53,7 @@ class Toplevel1:
     def __init__(self, top=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
-        _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
+        _bgcolor = '#78909C'  # X11 color: 'gray85'
         _fgcolor = '#000000'  # X11 color: 'black'
         _compcolor = '#d9d9d9' # X11 color: 'gray85'
         _ana1color = '#d9d9d9' # X11 color: 'gray85'
@@ -81,13 +81,13 @@ class Toplevel1:
         self.Frame1.configure(relief='groove')
         self.Frame1.configure(borderwidth="2")
         self.Frame1.configure(relief="groove")
-        self.Frame1.configure(background="#d9d9d9")
+        self.Frame1.configure(background="#78909C")
 
         self.Label1_5 = tk.Label(self.Frame1)
         self.Label1_5.place(relx=0.41, rely=0.014, height=51, width=193)
         self.Label1_5.configure(activebackground="#f9f9f9")
         self.Label1_5.configure(activeforeground="black")
-        self.Label1_5.configure(background="#d9d9d9")
+        self.Label1_5.configure(background="#78909C")
         self.Label1_5.configure(disabledforeground="#a3a3a3")
         self.Label1_5.configure(font=font11)
         self.Label1_5.configure(foreground="#000000")
@@ -101,7 +101,7 @@ class Toplevel1:
 
         self.Label2 = tk.Label(self.Frame1)
         self.Label2.place(relx=0.054, rely=0.09, height=41, width=136)
-        self.Label2.configure(background="#d9d9d9")
+        self.Label2.configure(background="#78909C")
         self.Label2.configure(disabledforeground="#a3a3a3")
         self.Label2.configure(font=font9)
         self.Label2.configure(foreground="#000000")
@@ -109,7 +109,7 @@ class Toplevel1:
 
         self.Label1 = tk.Label(self.Frame1)
         self.Label1.place(relx=0.203, rely=0.09, height=53, width=234)
-        self.Label1.configure(background="#d9d9d9")
+        self.Label1.configure(background="#78909C")
         self.Label1.configure(disabledforeground="#a3a3a3")
         self.Label1.configure(font="-family {Segoe UI} -size 10")
         self.Label1.configure(foreground="#000000")
@@ -117,7 +117,7 @@ class Toplevel1:
 
         self.Label1_5 = tk.Label(self.Frame1)
         self.Label1_5.place(relx=0.406, rely=0.09, height=50, width=234)
-        self.Label1_5.configure(background="#d9d9d9")
+        self.Label1_5.configure(background="#78909C")
         self.Label1_5.configure(disabledforeground="#a3a3a3")
         self.Label1_5.configure(font=font9)
         self.Label1_5.configure(foreground="#000000")
@@ -125,7 +125,7 @@ class Toplevel1:
 
         self.Label1_5 = tk.Label(self.Frame1)
         self.Label1_5.place(relx=0.596, rely=0.09, height=50, width=234)
-        self.Label1_5.configure(background="#d9d9d9")
+        self.Label1_5.configure(background="#78909C")
         self.Label1_5.configure(disabledforeground="#a3a3a3")
         self.Label1_5.configure(font=font9)
         self.Label1_5.configure(foreground="#000000")
@@ -135,7 +135,7 @@ class Toplevel1:
         self.Label1_5.place(relx=0.02, rely=0.519, height=51, width=234)
         self.Label1_5.configure(activebackground="#f9f9f9")
         self.Label1_5.configure(activeforeground="black")
-        self.Label1_5.configure(background="#d9d9d9")
+        self.Label1_5.configure(background="#78909C")
         self.Label1_5.configure(disabledforeground="#a3a3a3")
         self.Label1_5.configure(font=font9)
         self.Label1_5.configure(foreground="#000000")
@@ -147,7 +147,7 @@ class Toplevel1:
         self.Label1_5.place(relx=0.203, rely=0.519, height=51, width=234)
         self.Label1_5.configure(activebackground="#f9f9f9")
         self.Label1_5.configure(activeforeground="black")
-        self.Label1_5.configure(background="#d9d9d9")
+        self.Label1_5.configure(background="#78909C")
         self.Label1_5.configure(disabledforeground="#a3a3a3")
         self.Label1_5.configure(font=font9)
         self.Label1_5.configure(foreground="#000000")
@@ -159,7 +159,7 @@ class Toplevel1:
         self.Label1_5.place(relx=0.406, rely=0.519, height=51, width=234)
         self.Label1_5.configure(activebackground="#f9f9f9")
         self.Label1_5.configure(activeforeground="black")
-        self.Label1_5.configure(background="#d9d9d9")
+        self.Label1_5.configure(background="#78909C")
         self.Label1_5.configure(disabledforeground="#a3a3a3")
         self.Label1_5.configure(font=font9)
         self.Label1_5.configure(foreground="#000000")
@@ -171,7 +171,7 @@ class Toplevel1:
         self.Label1_5.place(relx=0.596, rely=0.519, height=51, width=234)
         self.Label1_5.configure(activebackground="#f9f9f9")
         self.Label1_5.configure(activeforeground="black")
-        self.Label1_5.configure(background="#d9d9d9")
+        self.Label1_5.configure(background="#78909C")
         self.Label1_5.configure(disabledforeground="#a3a3a3")
         self.Label1_5.configure(font=font9)
         self.Label1_5.configure(foreground="#000000")
@@ -183,7 +183,7 @@ class Toplevel1:
         self.Label1_5.place(relx=0.808, rely=0.09, height=51, width=234)
         self.Label1_5.configure(activebackground="#f9f9f9")
         self.Label1_5.configure(activeforeground="black")
-        self.Label1_5.configure(background="#d9d9d9")
+        self.Label1_5.configure(background="#78909C")
         self.Label1_5.configure(disabledforeground="#a3a3a3")
         self.Label1_5.configure(font=font9)
         self.Label1_5.configure(foreground="#000000")
@@ -195,7 +195,7 @@ class Toplevel1:
         self.Label1_5.place(relx=0.808, rely=0.519, height=51, width=234)
         self.Label1_5.configure(activebackground="#f9f9f9")
         self.Label1_5.configure(activeforeground="black")
-        self.Label1_5.configure(background="#d9d9d9")
+        self.Label1_5.configure(background="#78909C")
         self.Label1_5.configure(disabledforeground="#a3a3a3")
         self.Label1_5.configure(font=font9)
         self.Label1_5.configure(foreground="#000000")

@@ -83,7 +83,7 @@ class Toplevel1:
         self.Frame1.configure(relief='groove')
         self.Frame1.configure(borderwidth="2")
         self.Frame1.configure(relief="groove")
-        self.Frame1.configure(background="#d9d9d9")
+        self.Frame1.configure(background="#78909C")
 
         self.Button1 = tk.Button(top, command =lambda: self.showLivestock(1))
         self.Button1.place(relx=0.538, rely=0.053, height=33, width=56)
@@ -103,7 +103,7 @@ class Toplevel1:
         self.Frame2.configure(relief='groove')
         self.Frame2.configure(borderwidth="2")
         self.Frame2.configure(relief="groove")
-        self.Frame2.configure(background="#d9d9d9")
+        self.Frame2.configure(background="#78909C")
         self.Frame2.configure(highlightbackground="#d9d9d9")
         self.Frame2.configure(highlightcolor="black")
 
@@ -125,7 +125,7 @@ class Toplevel1:
         self.Frame3.configure(relief='groove')
         self.Frame3.configure(borderwidth="2")
         self.Frame3.configure(relief="groove")
-        self.Frame3.configure(background="#d9d9d9")
+        self.Frame3.configure(background="#78909C")
         self.Frame3.configure(highlightbackground="#d9d9d9")
         self.Frame3.configure(highlightcolor="black")
 
@@ -147,7 +147,7 @@ class Toplevel1:
         self.Frame4.configure(relief='groove')
         self.Frame4.configure(borderwidth="2")
         self.Frame4.configure(relief="groove")
-        self.Frame4.configure(background="#d9d9d9")
+        self.Frame4.configure(background="#78909C")
         self.Frame4.configure(highlightbackground="#d9d9d9")
         self.Frame4.configure(highlightcolor="black")
 
@@ -169,7 +169,7 @@ class Toplevel1:
         self.Frame5.configure(relief='groove')
         self.Frame5.configure(borderwidth="2")
         self.Frame5.configure(relief="groove")
-        self.Frame5.configure(background="#d9d9d9")
+        self.Frame5.configure(background="#78909C")
         self.Frame5.configure(highlightbackground="#d9d9d9")
         self.Frame5.configure(highlightcolor="black")
 
@@ -191,7 +191,7 @@ class Toplevel1:
         self.Frame6.configure(relief='groove')
         self.Frame6.configure(borderwidth="2")
         self.Frame6.configure(relief="groove")
-        self.Frame6.configure(background="#d9d9d9")
+        self.Frame6.configure(background="#78909C")
         self.Frame6.configure(highlightbackground="#d9d9d9")
         self.Frame6.configure(highlightcolor="black")
 
