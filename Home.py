@@ -247,14 +247,12 @@ class Toplevel1:
         self.Label1_5.configure(foreground="#13C41F")
         self.Label1_5.configure(disabledforeground="#a3a3a3")
         self.Label1_5.configure(font="-family {Segoe UI} -size 15 -weight bold")
-        # self.Label1_5.configure(text='''Profit''')
         self.Label1_5.grid(row=0, column=0, padx=10)
         self.Label1_5['text']=prof_loss
 
         self.Label1_6.configure(background="#d9d9d9")
         self.Label1_6.configure(font="-family {Segoe UI} -size 12 ")
         self.Label1_6.configure(foreground="#F80000")
-        # self.Label1_6.configure(text='''PROFIT''')
         self.Label1_6.grid(row=1, column=0, padx=10, sticky='s')
 
         if prof_loss>=0:

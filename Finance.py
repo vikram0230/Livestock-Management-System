@@ -85,6 +85,18 @@ class Toplevel1:
         self.Frame1.configure(relief="groove")
         self.Frame1.configure(background="#78909C")
 
+        self.Button0 = tk.Button(top, command = destroy_Toplevel1)
+        self.Button0.place(x=10, y=8, height=33, width=56)
+        self.Button0.configure(activebackground="#ececec")
+        self.Button0.configure(activeforeground="#000000")
+        self.Button0.configure(background="#d9d9d9")
+        self.Button0.configure(disabledforeground="#a3a3a3")
+        self.Button0.configure(foreground="#000000")
+        self.Button0.configure(highlightbackground="#d9d9d9")
+        self.Button0.configure(highlightcolor="black")
+        self.Button0.configure(pady="0")
+        self.Button0.configure(text='''< Back''')
+
         self.Button1 = tk.Button(top, command =lambda: self.showLivestock(1))
         self.Button1.place(relx=0.538, rely=0.053, height=33, width=56)
         self.Button1.configure(activebackground="#ececec")

@@ -84,6 +84,18 @@ class Toplevel1:
         self.goatData = goatData
         self.db = DataBase()
 
+        self.Button0 = tk.Button(top, command = destroy_Toplevel1)
+        self.Button0.place(x=10, y=8, height=33, width=56)
+        self.Button0.configure(activebackground="#ececec")
+        self.Button0.configure(activeforeground="#000000")
+        self.Button0.configure(background="#d9d9d9")
+        self.Button0.configure(disabledforeground="#a3a3a3")
+        self.Button0.configure(foreground="#000000")
+        self.Button0.configure(highlightbackground="#d9d9d9")
+        self.Button0.configure(highlightcolor="black")
+        self.Button0.configure(pady="0")
+        self.Button0.configure(text='''< Back''')
+
         self.Label1 = tk.Label(top)
         self.Label1.place(relx=0.416, rely=0.0, height=52, width=173)
         self.Label1.configure(activebackground="#f9f9f9")

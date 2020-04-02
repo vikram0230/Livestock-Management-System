@@ -83,6 +83,18 @@ class Toplevel1:
         self.Frame1.configure(relief="groove")
         self.Frame1.configure(background="#78909C")
 
+        self.Button0 = tk.Button(self.Frame1, command = alerts_support.destroy_window)
+        self.Button0.place(x=10, y=20, height=33, width=56)
+        self.Button0.configure(activebackground="#ececec")
+        self.Button0.configure(activeforeground="#000000")
+        self.Button0.configure(background="#d9d9d9")
+        self.Button0.configure(disabledforeground="#a3a3a3")
+        self.Button0.configure(foreground="#000000")
+        self.Button0.configure(highlightbackground="#d9d9d9")
+        self.Button0.configure(highlightcolor="black")
+        self.Button0.configure(pady="0")
+        self.Button0.configure(text='''< Back''')
+
         self.Label1_5 = tk.Label(self.Frame1)
         self.Label1_5.place(relx=0.41, rely=0.014, height=51, width=193)
         self.Label1_5.configure(activebackground="#f9f9f9")
